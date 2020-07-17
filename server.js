@@ -3,7 +3,6 @@ const PORT = 8080
 const express = require('express')
 const app = express()
 // const path = require('path')
-// const dynamic = require('./lib/dynamic')
 const router = require('./lib/router')
 
 app.use('/api', router())

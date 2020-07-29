@@ -4,6 +4,13 @@ const express = require('express')
 const app = express()
 // const path = require('path')
 const router = require('./lib/router')
+const cookieParser = require('cookie-parser')
+const sessions = require('./lib/sessions')
+const bodyParser = require('body-parser')
+
+app.use(cookieParser())
+app.use(sessions)
+app.use(bodyParser.urlencoded())
 
 app.use('/api', router())
 

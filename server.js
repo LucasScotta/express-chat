@@ -15,13 +15,13 @@ app.use(bodyParser.urlencoded())
 app.use('/api', router())
 
 app.use('/ping', (req, resp) => {
-	resp.send('pong')
+  resp.send('pong')
 })
 
 app.use(express.static('public'))
 
 app.use('/$', (req, resp) => {
-	resp.send('Bienvenido')
+  resp.send('Bienvenido')
 })
 
 app.listen(PORT)

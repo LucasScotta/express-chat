@@ -21,7 +21,7 @@ app.use('/ping', (req, resp) => {
 app.use(express.static('public'))
 
 app.use('/$', (req, resp) => {
-	resp.send('hola')
+	resp.send('Bienvenido')
 })
 
 app.listen(PORT)

@@ -66,7 +66,16 @@ describe('/lib/routes/users', () => {
 						.to.have.property('pass')
 							.to.be.a('string')
 							.to.be.equal('pass')
-					done()
+					return done()
+				})
+			})
+		})
+		describe('when file exists but password is wrong', () => {
+			it('should throw pass error', (done) => {
+				users.getByPass('lucas', 'password', (err, user) => {
+					expect(err).to.be.an('error')
+					expect(user).to.be.undefined
+					return done()
 				})
 			})
 		})
@@ -77,7 +86,7 @@ describe('/lib/routes/users', () => {
 				users.get('id', (err, user) => {
 					expect(err).to.be.an('error')
 					expect(user).to.be.undefined
-					done()
+					return done()
 				})
 			})
 		})
@@ -89,7 +98,7 @@ describe('/lib/routes/users', () => {
 						.to.be.an('object')
 						.to.have.property('pass')
 							.to.be.a('string')
-					done()
+					return done()
 				})
 			})
 		})

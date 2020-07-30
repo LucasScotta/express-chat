@@ -3,13 +3,6 @@ const config = {
 }
 const users = require('../../lib/users')(config)
 const fs = require('fs')
-// const assert = (es_correcto, msg) => {
-//   if (!es_correcto) throw Error(msg || 'Expectation failed')
-// }
-// const assert_typeof = (obj, type, msg) => {
-//   assert(typeof obj === type, `Expected ${type}, but got ${typeof obj}. ${msg || ''}`)
-// }
-// assert.typeOf(users, 'boolean')
 
 describe('/lib/routes/users', () => {
   const unlink = (path, next) => {
@@ -34,7 +27,7 @@ describe('/lib/routes/users', () => {
         })
       })
       after((done) => {
-        unlink(config.path + '/id.json', done)  
+        unlink(config.path + '/id.json', done)
       })
     })
     describe('when file exists', () => {

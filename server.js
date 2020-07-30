@@ -1,16 +1,10 @@
 // Si tu codigo hace require debe estar declarado como dependencia en el package.json
 const PORT = 8080
-const express = require('express')
-const app = express()
 // const path = require('path')
+const express = require('express')
 const router = require('./lib/router')
-const cookieParser = require('cookie-parser')
-const sessions = require('./lib/sessions')
-const bodyParser = require('body-parser')
 
-app.use(cookieParser())
-app.use(sessions)
-app.use(bodyParser.urlencoded())
+const app = require('./app')
 
 app.use('/api', router())
 

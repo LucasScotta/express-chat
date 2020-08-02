@@ -1,10 +1,22 @@
-const app = require('express')()
+const express = require('express')
 const cookieParser = require('cookie-parser')
 const sessions = require('./lib/sessions')
 const bodyParser = require('body-parser')
+const router = require('./lib/router')
+process.env.API_ROUTE = '/api'
+module.exports = exports = express()
 
-app.use(cookieParser())
-app.use(sessions)
-app.use(bodyParser.urlencoded())
+exports.use(cookieParser())
+exports.use(sessions)
+exports.use(bodyParser.urlencoded())
+exports.use('/api', router())
 
-module.exports = app
+exports.use('/ping', (req, resp) => {
+  resp.send('pong')
+})
+
+exports.use(express.static('public'))
+
+exports.use('/$', (req, resp) => {
+  resp.send('Bienvenido')
+})

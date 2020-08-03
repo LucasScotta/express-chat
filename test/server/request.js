@@ -5,3 +5,5 @@ const supertest = require('supertest')
 module.exports = () => {
   return supertest(app)
 }
+
+module.exports.agent = () => supertest.agent(app)

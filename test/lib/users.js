@@ -1,6 +1,4 @@
-const config = {
-  path: __dirname + '/../datos/users',
-}
+const config = require('../config')
 const users = require('../../lib/users')(config)
 const fs = require('fs')
 
@@ -30,6 +28,7 @@ describe('/lib/routes/users', () => {
         unlink(config.path + '/id.json', done)
       })
     })
+
     describe('when file exists', () => {
       it('should throw error', (done) => {
         users.add('lucas', 'pass', (err, user) => {
@@ -40,6 +39,7 @@ describe('/lib/routes/users', () => {
       })
     })
   })
+
   describe('getByPass method', () => {
     describe('when file doesn`t exists', () => {
       it('should throw error', (done) => {
@@ -50,6 +50,7 @@ describe('/lib/routes/users', () => {
         })
       })
     })
+
     describe('when file exists', () => {
       it('should return an user', (done) => {
         users.getByPass('lucas', 'pass', (err, user) => {
@@ -63,6 +64,7 @@ describe('/lib/routes/users', () => {
         })
       })
     })
+
     describe('when file exists but password is wrong', () => {
       it('should throw pass error', (done) => {
         users.getByPass('lucas', 'password', (err, user) => {
@@ -73,6 +75,7 @@ describe('/lib/routes/users', () => {
       })
     })
   })
+
   describe('get method', () => {
     describe('when file doesn`t exists', () => {
       it('should throw error', (done) => {
@@ -83,6 +86,7 @@ describe('/lib/routes/users', () => {
         })
       })
     })
+
     describe('when file exists', () => {
       it('should return an user', (done) => {
         users.get('lucas', (err, user) => {

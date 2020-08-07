@@ -6,4 +6,4 @@ const app = require('./app')
 
 
 app.listen(PORT)
-console.log('listen on localhost:8080')
+console.log('listen on localhost:' + PORT)

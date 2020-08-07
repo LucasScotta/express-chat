@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Contador HTML</title>
+  </head>
+  <body style="background-color: black">
+   <center><h1 id='count' style="color: white;">0</h1></center>
+  </body>
+</html>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  const element = document.getElementById('count')
+  const colors = ['red','blue','white' ,'green','orange','yellow','brown','rebeccapurple','lightblue']
+
+  const colorear = () => {
+    element.style.color = colors[Math.floor(Math.random() * colors.length)]
+  }
+  const cambiar = (n) => {
+    element.innerText = n
+  }
+
+  const count = (curr) => {
+    axios
+      .post('/sumar', {number: curr})
+      .then((resp) => {
+        const next = resp.data.number
+        cambiar(next)
+        colorear()
+        setTimeout(() => count(next), 500)
+      })
+    }
+    count(-1)
+</script>

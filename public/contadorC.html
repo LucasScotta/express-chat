@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  const mostrar = (curr, next) => {
+    console.log('current', curr)
+    console.log('next', next)
+  }
+  const count = (curr) => {
+    axios
+      .post('/sumar', {number: curr})
+      .then((resp) => {
+        next = resp.data.number
+        mostrar(curr, next)
+        setTimeout(() => count(next), 1500)
+      })
+   }
+   count(0)
+</script>
+<html>
+  <head>
+    <title>Contador por consola</title>
+  </head>
+  <body>
+    <center><h1>Mira la consola</h1></center>
+  </body>
+</html>

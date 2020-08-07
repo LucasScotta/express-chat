@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<style>
+.btn {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+</style>
+<html>
+  <head>
+   <title>Semaforo</title>
+  </head>
+  <body>
+    <center>
+      <h1>Light</h1>
+      <div><button style="margin-bottom: 250px;" id="luz" class="btn"></button></div>
+      <h1>Buttons</h1>
+     <button onclick="newColor('red')" style="background-color: red;" class="btn"></button>
+     <button onclick="newColor('yellow')" style="background: yellow;" class="btn"></button>
+     <button onclick="newColor('blue')" style="background: blue;" class="btn"></button>
+   </center>
+  </body>
+</html>
+
+<script>
+  const luz = document.getElementById('luz')
+  luz.style.backgroundColor = 'rebeccapurple'
+  let color
+  const refreshLight = () => {
+
+    axios
+      .get(`/smf?color=${color}`)
+      .then((resp) => {
+        luz.style.backgroundColor = resp.data.color
+        color = resp.data.color
+        refreshLight()
+      })
+  }
+
+  const newColor = (color) => {
+    axios
+      .post('/smf', { color })
+  }
+  refreshLight()
+</script>

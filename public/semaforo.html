@@ -28,7 +28,6 @@
   luz.style.backgroundColor = 'rebeccapurple'
   let color
   const refreshLight = () => {
-
     axios
       .get(`/smf?color=${color}`)
       .then((resp) => {

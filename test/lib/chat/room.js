@@ -11,4 +11,18 @@ describe('/lib/chat/room', () => {
       .to.be.a('number')
       .to.be.below(id2)
   })
+
+  it('should add an user', () => {
+    const room = new Room()
+    const user = 'lucas'
+    const feed = room.addUser(user)
+    expect(feed)
+      .to.be.instanceof(Feed)
+  })
+  it('should throw on invalid user', () => {
+    const room = new Room()
+    const call = () => room.addUser(undefined)
+    expect(call)
+      .to.throw(Error)
+  })
 }

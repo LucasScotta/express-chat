@@ -39,4 +39,17 @@ describe('/lib/chat/room', () => {
     expect(result)
       .to.be.false
   })
+
+  it('should list the users', () => {
+    const room = new Room()
+    const user1 = 'lucas'
+    const user2 = 'martin'
+    room.addUser(user1)
+    room.addUser(user2)
+    const users = room.getUsers()
+    expect(users)
+      .to.be.an('array')
+      .to.have.length(2)
+      .to.have.members([user2, user1])
+  })
 }

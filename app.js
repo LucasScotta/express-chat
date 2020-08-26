@@ -115,18 +115,6 @@ exports.get('/msg', (req, resp) => {
   if (!req.sesion.user) {
     return resp.send({ url: '/api/login' })
   }
-  else if (clientsWaiting.length > 0) {
-    clientsWaiting.forEach((client, index, arr) => {
-      if (client.req.sesion.date + 10 * 1000 < Date.now()) {
-        delete arr[index].req.sesion.date
-        delete arr[index].req.sesion.connected
-        arr.splice(index, 1)
-        clients -= 1
-      }
-    })
-  }
-  setTimeout(() => clearClients(), 60 * 3 * 1000)
-}
 
 clearClients()
 
@@ -134,29 +122,8 @@ const isNewClient = (req) => {
   return typeof req.sesion.lastDate !== 'number'
 }
 
-exports.get('/msg', (req, resp) => {
-  // Si el cliente es nuevo
-  // Si el cliente recibio todos los mensajes
-  // Si el cliente, ya esta en espera
-  if (isNewClient(req)) {
-    //seteo date, sumo un cliente y lo pongo en espera
-    req.sesion.lastDate = Date.now()
-    clients += 1
-    // Aca deberia ir como 'name' el nombre de usuario (creo)
-    req.sesion.connected = true
-    // Aca deberia ir como 'name' el nombre de usuario (creo)
-    clientsWaiting.push({ req, resp })
-  }
-  else {
-    if (!req.sesion.connected) {
-      req.sesion.lastDate = Date.now()
-    // Aca deberia ir como 'name' el nombre de usuario (creo)
-      req.sesion.connected = true
-    // Aca deberia ir como 'name' el nombre de usuario (creo)
-      clientsWaiting.push({ req, resp })
-   }
-   else {
-    resp.send(417)
-   }
+exports.get('/user', (req, resp) => {
+  if (req.sesion.user) {
+    resp.send({ user: req.sesion.user.name })
   }
 })

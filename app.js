@@ -76,17 +76,36 @@ exports.get('/debug', (req, resp) => {
 })
 
 exports.post('/msg', (req, resp) => {
+  if (!req.sesion.user.name) {
+    return resp.sendStatus(417)
+  }
+
+  if (typeof req.body.connection === 'number') {
+    return feed.emit('connection-0', {req, resp})
+  }
 
   const msg = req.body.msg
+
+  // const feed = chat.createPublisher('/room/12')
+  // feed.publish(msg)
+  // resp.send(200)
+
   if (msg === "") resp.sendStatus(200)
   else {
-    messagesQueue.push({
+    chat.sendMsg({
       msg,
+      name: req.sesion.user.name,
       date: Date.now(),
       sent:0,
-      clients,
+      clients: feed.clients,
     })
-    setImmediate(sendMsg)
+    feed.emit('message', {
+      msg,
+      name: req.sesion.user.name,
+      date: Date.now(),
+      sent:0,
+      clients: feed.clients,
+    })
     resp.sendStatus(200)
   }
 })

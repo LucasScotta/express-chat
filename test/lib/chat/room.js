@@ -25,6 +25,14 @@ describe('/lib/chat/room', () => {
     expect(call)
       .to.throw(Error)
   })
+  it('should add an user twice', () => {
+    const room = new Room()
+    const user = 'pepe'
+    const f1 = room.addUser(user)
+    const f2 = room.addUser(user)
+    expect(f2)
+      .to.be.equal(f1)
+  })
 
   it('should have user', () => {
     const room = new Room()

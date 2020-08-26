@@ -25,4 +25,18 @@ describe('/lib/chat/room', () => {
     expect(call)
       .to.throw(Error)
   })
+
+  it('should have user', () => {
+    const room = new Room()
+    room.addUser('lucas')
+    const result = room.hasUser('lucas')
+    expect(result)
+      .to.be.true
+  })
+  it('should not have an user', () =>{
+    const room = new Room()
+    const result = room.hasUser('lucas')
+    expect(result)
+      .to.be.false
+  })
 }

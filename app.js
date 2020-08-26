@@ -75,9 +75,6 @@ exports.get('/debug', (req, resp) => {
   resp.sendStatus(200)
 })
 
-const clientsWaiting = []
-const messagesQueue = []
-
 exports.post('/msg', (req, resp) => {
 
   const msg = req.body.msg

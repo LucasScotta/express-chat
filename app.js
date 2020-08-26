@@ -71,10 +71,8 @@ exports.get('/smf', (req, resp) => {
 })
 
 exports.get('/debug', (req, resp) => {
-  console.log('clients', clientsWaiting.map(client => client.req.sesion))
-  console.log('messages', messagesQueue)
-  console.log('number of clients', clients)
-  resp.send(200)
+  console.log('feed', feed)
+  resp.sendStatus(200)
 })
 
 const clientsWaiting = []

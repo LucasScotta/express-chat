@@ -47,7 +47,8 @@
     /*background-color: black;*/
   }
 </style>
-    <title></title>
+    <title>CHAT</title>
+    <h3 style="margin-bottom: 25px;">If you reload this page, you have to loggin again.</h3>
   </head>
   <body>
     <center>
@@ -73,15 +74,15 @@ const sendMsg = (msg) => {
   msgElement.value = ""
   }
 const backgroundHeight = (n, div) => {
-  let m = 28
+  let maxLength = 28
   let height = 45
   const text = div.innerText.split('')
   if (text.length > 125) {
     text.splice(132, text.length - 1)
   }
-  while(text.length > m) {
-    text.splice(m, 0, ' \n ')
-    m += 28
+  while(text.length > maxLength) {
+    text.splice(maxLength, 0, ' \n ')
+    maxLength += 28
     height += 45
   }
   div.innerText = text.join("")
@@ -90,26 +91,44 @@ const backgroundHeight = (n, div) => {
 const writeMsg = (div, chat, data) => {
   div.className = 'message'
   div.style.backgroundColor = 'black'
-  div.innerText = data.msg
+  div.innerText = `${data.name}: ${data.msg}`
   const background = backgroundHeight(50, div)
   div.style.height = background
   chat.appendChild(div)
 }
 
-let connection = 0
+
 const refreshChat = () => {
-  const div = document.createElement('div')
+  axios
+    .get('/msg')
+    .then((resp) => {
+      connection += 1
+      for (const data of resp.data.msgs) {
+        const div = document.createElement('div')
+        writeMsg(div, chat, data)
+        div.scrollIntoView(true)
+      }
+    })
+}
+
+let connection = 0
+const oldMsgs = () => {
+  axios
+    .post('/msg', { connection })
+}
+const firstGet = () => {
   axios
     .get('/msg?hit=' + connection)
     .then((resp) => {
-      connection += 1
-      console.log(resp.data)
-      for(const msg of resp.data) {
-        writeMsg(div, chat, msg)
+      if (resp.data.url) {
+        return location.href = resp.data.url
       }
-      div.scrollIntoView(true)
-      refreshChat()
+      if (resp.data.newMsg) {
+        refreshChat()
+      }
+      firstGet()
     })
 }
-refreshChat()
+firstGet()
+oldMsgs()
 </script>

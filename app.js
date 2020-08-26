@@ -116,14 +116,27 @@ exports.get('/msg', (req, resp) => {
     return resp.send({ url: '/api/login' })
   }
 
-clearClients()
+  const room = chat.getRoom(req.query.roomId)
+  if (!room) {
+    return resp.send(400)
+  }
 
-const isNewClient = (req) => {
-  return typeof req.sesion.lastDate !== 'number'
-}
+  const feed = room.addUser(req.sesion.user.name)
+  feed.on('msg', (msg) => {
+    resp.send([msg])
+    room.removeFeed(feed)
+  })
+  feed.on('timeout', () => {
+    resp.send(200)
+    feed.stop()
+  })
+  setTimeout(() => feed.emit('timeout'), 30 * 1000)
+  feed.start()
+})
 
 exports.get('/user', (req, resp) => {
   if (req.sesion.user) {
     resp.send({ user: req.sesion.user.name })
   }
+  else resp.sendStatus(200)
 })

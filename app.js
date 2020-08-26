@@ -112,12 +112,8 @@ exports.post('/msg', (req, resp) => {
 
 exports.get('/msg', (req, resp) => {
 
-  if (client) {
-    const index = clientsWaiting.indexOf(client)
-    delete client.req.sesion.date
-    delete client.req.sesion.connected
-    clientsWaiting.splice(index, 1)
-    clients -= 1
+  if (!req.sesion.user) {
+    return resp.send({ url: '/api/login' })
   }
   else if (clientsWaiting.length > 0) {
     clientsWaiting.forEach((client, index, arr) => {

@@ -13,18 +13,18 @@ exports.use(bodyParser.urlencoded())
 exports.use('/api', router())
 exports.use(express.json())
 
+exports.use('/$', (req, resp) => {
+  resp.sendFile(__dirname + '/public/home.html')
+})
+
 exports.use('/ping', (req, resp) => {
   resp.send('pong')
 })
 
 exports.use(express.static('public'))
 
-exports.use('/$', (req, resp) => {
-  resp.send('Bienvenido')
-})
 
 exports.post('/sumar', (req, resp) => {
-  console.log(req.body.number)
   if (typeof req.body.number === 'number') {
     return resp.send(200, {number: req.body.number + 1})
   }

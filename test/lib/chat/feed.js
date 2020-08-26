@@ -24,4 +24,4 @@ describe('/lib/chat/feed', () => {
     expect(belongs)
       .to.be.false
   })
-}
+})

@@ -55,6 +55,4 @@ describe('lib/chat/chat.js', () => {
     expect(removed)
       .to.be.equal(false)
   })
-}
-
-console.log('---------------------------------------------------------------------')
+})

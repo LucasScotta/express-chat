@@ -91,4 +91,6 @@ describe('/lib/chat/room', () => {
     expect(call)
       .to.throw(/invalid feed/)
   })
-}
+})
+
+console.log('---------------------------------------------------------------------')

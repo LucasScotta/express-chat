@@ -110,45 +110,7 @@ exports.post('/msg', (req, resp) => {
   }
 })
 
-const clientNeeds = (client, msg) => {
-  return client.req.sesion.lastDate < msg.date
-}
-
-const canBeRemoved = (msg) => {
-  return msg.sent === msg.clients || msg.date + 30 * 1000 < Date.now()
-}
-
-const sendMsg = () => {
-  const clientsStillWaiting = []
-  while (clientsWaiting.length > 0) {
-
-    const client = clientsWaiting.pop()
-    const batch = messagesQueue.filter(msg => clientNeeds(client, msg))
-    if (batch.length > 0) {
-      client.resp.send(batch)
-      delete client.req.sesion.connected
-      batch.forEach(msg => msg.sent += 1)
-      client.req.sesion.lastDate = batch[batch.length - 1].date
-    }
-    else {
-      clientsStillWaiting.push(client)
-    }
-  }
-  clientsStillWaiting.forEach(client => clientsWaiting.push(client))
-
-  for (let i = 0; i < messagesQueue.length;/*empty on purpose*/) {
-    if (canBeRemoved(messagesQueue[i])) {
-      messagesQueue.splice(i, 1)
-    }
-    else {
-      i += 1
-    }
-  }
-}
-
-let clients = 0
-
-const clearClients = (client) => {
+exports.get('/msg', (req, resp) => {
 
   if (client) {
     const index = clientsWaiting.indexOf(client)

@@ -21,4 +21,16 @@ describe('lib/chat/chat.js', () => {
     expect(room)
       .to.be.null
   })
+
+  it('should return created rooms', () => {
+    const chat = new Chat()
+    const r1 = chat.createRoom()
+    const r2 = chat.createRoom()
+    const r3 = chat.createRoom()
+    const rooms = chat.getRooms()
+    expect(rooms)
+      .to.be.an('array')
+      .to.have.length(3)
+      .to.have.members([r1, r2, r3])
+  })
 }

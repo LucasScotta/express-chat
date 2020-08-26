@@ -67,4 +67,20 @@ describe('/lib/chat/room', () => {
     expect(removed)
       .to.be.equal(true)
   })
+
+  it('should remove an existing feed', () => {
+    const room = new Room()
+    const feed = room.addUser('lucas')
+    room.removeFeed(feed)
+    expect(room.hasUser('lucas'))
+      .to.be.false
+  })
+  it('should try to remove a non existing feed and return error', () => {
+    const room1 = new Room()
+    const room2 = new Room()
+    const feed = room1.addUser('lucas')
+    const call = () => room2.removeFeed(feed)
+    expect(call)
+      .to.throw(/invalid feed/)
+  })
 }

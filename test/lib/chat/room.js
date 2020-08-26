@@ -52,4 +52,19 @@ describe('/lib/chat/room', () => {
       .to.have.length(2)
       .to.have.members([user2, user1])
   })
+
+  it('should remove a non existing user', () => {
+    const room = new Room()
+    const removed = room.removeUser('user')
+    expect(removed)
+      .to.be.equal(false)
+  })
+  it('should remove an existing user', () => {
+    const room = new Room()
+    const user = 'olivia'
+    room.addUser(user)
+    const removed = room.removeUser(user)
+    expect(removed)
+      .to.be.equal(true)
+  })
 }

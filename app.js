@@ -52,6 +52,10 @@ exports.post('/smf', (req, resp) => {
   }
 })
 
+exports.get('/err', (req, resp) => {
+  console.error('error de prueba')
+  resp.send(200)
+})
 exports.get('/smf', (req, resp) => {
 
   if (req.query.color === 'undefined') {

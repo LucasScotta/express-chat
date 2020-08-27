@@ -131,7 +131,11 @@ describe('/lib/chat/room', () => {
     room.newMsg(msg)
     room.newMsg(msg)
     room.newMsg(msg)
+    const msgs = room.getMsgs()
     const deleted = room.deleteMsgs()
+    expect(msgs)
+      .to.have.length(4)
+      .to.have.members([msg, msg, msg, msg])
     expect(deleted)
       .to.be.false
   })

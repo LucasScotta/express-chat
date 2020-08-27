@@ -108,7 +108,7 @@ describe('/lib/chat/room', () => {
   it('should delete sent msg', () => {
     const room = new Room()
     const msg = {sent: 1}
-    const msg2 = {}
+    const msg2 = {sent: 0}
     room.addUser('lucas')
     room.newMsg(msg)
     room.newMsg(msg)
@@ -118,10 +118,16 @@ describe('/lib/chat/room', () => {
     room.newMsg(msg2)
     room.deleteMsgs()
     const msgs = room.getMsgs()
-    console.log(msgs)
     expect(msgs)
       .to.have.length(2)
       .to.have.members([msg2, msg2])
+  })
+
+  it('should return the room creator', () => {
+    const room = new Room('lucas')
+    const adm = room.getAdmin()
+    expect(adm)
+      .to.be.a('string')
   })
 })
 

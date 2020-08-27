@@ -47,12 +47,20 @@ describe('lib/chat/chat.js', () => {
       .to.have.length(2)
       .to.have.members([r1, r3])
   })
-  it('sould delete a room, non existing', () => {
+  it('should delete a room, non existing', () => {
     const chat1 = new Chat()
     const chat2 = new Chat()
     const room = chat1.createRoom()
     const removed = chat2.removeRoom(room)
     expect(removed)
       .to.be.equal(false)
+  })
+  it('should return messages', () => {
+    const chat = new Chat()
+    const room = chat.createRoom()
+    const msgs = room.getMsgs()
+    expect(msgs)
+      .to.be.an('array')
+      .to.have.length(0)
   })
 })

@@ -105,7 +105,7 @@ describe('/lib/chat/room', () => {
       .to.have.members([msg, msg, msg])
   })
 
-  it('should delete sent msg', () => {
+  it('should delete sent msgs', () => {
     const room = new Room()
     const msg = {sent: 1}
     const msg2 = {sent: 0}
@@ -116,11 +116,24 @@ describe('/lib/chat/room', () => {
     room.newMsg(msg)
     room.newMsg(msg2)
     room.newMsg(msg2)
-    room.deleteMsgs()
+    const deleted = room.deleteMsgs()
     const msgs = room.getMsgs()
     expect(msgs)
       .to.have.length(2)
       .to.have.members([msg2, msg2])
+    expect(deleted)
+      .to.be.true
+  })
+  it('should not delete msgs', () => {
+    const room = new Room()
+    const msg = {}
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg)
+    const deleted = room.deleteMsgs()
+    expect(deleted)
+      .to.be.false
   })
 
   it('should return the room creator', () => {

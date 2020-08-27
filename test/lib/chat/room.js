@@ -150,14 +150,14 @@ describe('/lib/chat/room', () => {
   it('should change the display msg of the Room', () => {
     const room = new Room({name: ''})
     const msg = 'soy un Room'
-    const displayMsg = room.changeDisplayMsg(msg)
+    const displayMsg = room.updateDisplayMsg(msg)
     expect(displayMsg)
       .to.be.equal(msg)
   })
   it('should throw on max length msg overpassed', () => {
     const room = new Room({name: ''})
     const msg = 'asdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdasdas'
-    const displayMsg = () => room.changeDisplayMsg(msg)
+    const displayMsg = () => room.updateDisplayMsg(msg)
     expect(displayMsg)
       .to.throw(Error)
   })

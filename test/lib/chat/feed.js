@@ -1,4 +1,4 @@
-const Feed = require('../../../lib/chat/feed')
+const Feed = require('../../../lib/public-routes/chat/feed')
 
 describe('/lib/chat/feed', () => {
   it('should return its user', () => {

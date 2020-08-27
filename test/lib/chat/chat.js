@@ -1,5 +1,5 @@
-const Chat = require('../../../lib/chat/chat')
-const Room = require('../../../lib/chat/room')
+const Chat = require('../../../lib/public-routes/chat')()
+const Room = require('../../../lib/public-routes/chat/room')
 
 describe('lib/chat/chat.js', () => {
   it('should create a room', () => {

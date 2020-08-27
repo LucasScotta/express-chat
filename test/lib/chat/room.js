@@ -1,5 +1,5 @@
-const Room = require('../../../lib/chat/room')
-const Feed = require('../../../lib/chat/feed')
+const Room = require('../../../lib/public-routes/chat/room')
+const Feed = require('../../../lib/public-routes/chat/feed')
 
 describe('/lib/chat/room', () => {
   it('should auto-assign room ids', () => {

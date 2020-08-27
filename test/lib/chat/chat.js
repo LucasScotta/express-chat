@@ -55,6 +55,7 @@ describe('lib/chat/chat.js', () => {
     expect(removed)
       .to.be.equal(false)
   })
+
   it('should return messages', () => {
     const chat = new Chat()
     const room = chat.createRoom()
@@ -62,5 +63,12 @@ describe('lib/chat/chat.js', () => {
     expect(msgs)
       .to.be.an('array')
       .to.have.length(0)
+  })
+
+  it('should throw on invalid msg or id', () => {
+    const chat = new Chat()
+    const result = () => chat.sendMsg({}, 2)
+    expect(result)
+      .to.throw(Error)
   })
 })

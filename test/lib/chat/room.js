@@ -104,6 +104,25 @@ describe('/lib/chat/room', () => {
       .to.have.length(3)
       .to.have.members([msg, msg, msg])
   })
+
+  it('should delete sent msg', () => {
+    const room = new Room()
+    const msg = {sent: 1}
+    const msg2 = {}
+    room.addUser('lucas')
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg2)
+    room.newMsg(msg2)
+    room.deleteMsgs()
+    const msgs = room.getMsgs()
+    console.log(msgs)
+    expect(msgs)
+      .to.have.length(2)
+      .to.have.members([msg2, msg2])
+  })
 })
 
 console.log('---------------------------------------------------------------------')

@@ -3,8 +3,8 @@ const Feed = require('../../../lib/axios-routes/chat/feed')
 
 describe('/lib/chat/room', () => {
   it('should auto-assign room ids', () => {
-    const room1 = new Room()
-    const room2 = new Room()
+    const room1 = new Room({name: 'lucas'})
+    const room2 = new Room({name: 'lucas'})
     const id1 = room1.getId()
     const id2 = room2.getId()
     expect(id1)
@@ -13,20 +13,20 @@ describe('/lib/chat/room', () => {
   })
 
   it('should add an user', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const user = 'lucas'
     const feed = room.addUser(user)
     expect(feed)
       .to.be.instanceof(Feed)
   })
   it('should throw on invalid user', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const call = () => room.addUser(undefined)
     expect(call)
       .to.throw(Error)
   })
   it('should add an user twice', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const user = 'pepe'
     const f1 = room.addUser(user)
     const f2 = room.addUser(user)
@@ -35,21 +35,21 @@ describe('/lib/chat/room', () => {
   })
 
   it('should have user', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     room.addUser('lucas')
     const result = room.hasUser('lucas')
     expect(result)
       .to.be.true
   })
   it('should not have an user', () =>{
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const result = room.hasUser('lucas')
     expect(result)
       .to.be.false
   })
 
   it('should list the users', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const user1 = 'lucas'
     const user2 = 'martin'
     room.addUser(user1)
@@ -62,13 +62,13 @@ describe('/lib/chat/room', () => {
   })
 
   it('should remove a non existing user', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const removed = room.removeUser('user')
     expect(removed)
       .to.be.equal(false)
   })
   it('should remove an existing user', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const user = 'olivia'
     room.addUser(user)
     const removed = room.removeUser(user)
@@ -77,15 +77,15 @@ describe('/lib/chat/room', () => {
   })
 
   it('should remove an existing feed', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const feed = room.addUser('lucas')
     room.removeFeed(feed)
     expect(room.hasUser('lucas'))
       .to.be.false
   })
   it('should try to remove a non existing feed and return error', () => {
-    const room1 = new Room()
-    const room2 = new Room()
+    const room1 = new Room({name: 'lucas'})
+    const room2 = new Room({name: 'lucas'})
     const feed = room1.addUser('lucas')
     const call = () => room2.removeFeed(feed)
     expect(call)
@@ -93,7 +93,7 @@ describe('/lib/chat/room', () => {
   })
 
   it('should add a new msg', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const msg = {}
     room.newMsg(msg)
     room.newMsg(msg)
@@ -106,7 +106,7 @@ describe('/lib/chat/room', () => {
   })
 
   it('should delete sent msgs', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const msg = {sent: 1}
     const msg2 = {sent: 0}
     room.addUser('lucas')
@@ -125,7 +125,7 @@ describe('/lib/chat/room', () => {
       .to.be.true
   })
   it('should not delete msgs', () => {
-    const room = new Room()
+    const room = new Room({name: 'lucas'})
     const msg = {}
     room.newMsg(msg)
     room.newMsg(msg)
@@ -141,7 +141,7 @@ describe('/lib/chat/room', () => {
   })
 
   it('should return the room creator', () => {
-    const room = new Room('lucas')
+    const room = new Room({name: 'lucas'})
     const adm = room.getAdmin()
     expect(adm)
       .to.be.a('string')

@@ -65,6 +65,21 @@ describe('lib/chat/chat.js', () => {
       .to.have.length(0)
   })
 
+  it('should send a msg to the specified room', () => {
+    const chat = new Chat()
+    const room = chat.createRoom()
+    const id = room.getId()
+    const msg = {
+    }
+    const msg2 = {
+    }
+    chat.sendMsg(msg, id)
+    chat.sendMsg(msg2, id)
+    const msgs = room.getMsgs()
+    expect(msgs)
+      .to.have.members([msg, msg2])
+      .to.have.length(2)
+  })
   it('should throw on invalid msg or id', () => {
     const chat = new Chat()
     const result = () => chat.sendMsg({}, 2)

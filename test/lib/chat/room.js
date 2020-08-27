@@ -91,6 +91,19 @@ describe('/lib/chat/room', () => {
     expect(call)
       .to.throw(/invalid feed/)
   })
+
+  it('should add a new msg', () => {
+    const room = new Room()
+    const msg = {}
+    room.newMsg(msg)
+    room.newMsg(msg)
+    room.newMsg(msg)
+    const msgs = room.getMsgs()
+    expect(msgs)
+      .to.be.an('array')
+      .to.have.length(3)
+      .to.have.members([msg, msg, msg])
+  })
 })
 
 console.log('---------------------------------------------------------------------')

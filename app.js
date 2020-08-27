@@ -2,9 +2,9 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const sessions = require('./lib/sessions')
 const bodyParser = require('body-parser')
-const chat = require('./lib/chat')()
 const router = require('./lib/router')
-const feed = require('./lib/chat/feed')
+const publicRouter = require('./lib/public-router')
+process.env.HOME = __dirname + '/public/home.html'
 module.exports = exports = express()
 
 exports.use(cookieParser())

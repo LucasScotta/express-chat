@@ -83,7 +83,7 @@ describe('/lib/chat/room', () => {
     expect(room.hasUser('lucas'))
       .to.be.false
   })
-  it('should try to remove a non existing feed and return error', () => {
+  it('should throw on invalid feed', () => {
     const room1 = new Room({name: 'lucas'})
     const room2 = new Room({name: 'lucas'})
     const feed = room1.addUser('lucas')
@@ -140,7 +140,7 @@ describe('/lib/chat/room', () => {
       .to.be.false
   })
 
-  it('should return the room creator', () => {
+  it('should return the room administrator', () => {
     const room = new Room({name: 'lucas'})
     const adm = room.getAdmin()
     expect(adm)

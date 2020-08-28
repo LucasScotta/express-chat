@@ -95,10 +95,10 @@ describe('/lib/chat/room', () => {
   it('should add a new msg', () => {
     const room = new Room({name: 'lucas'})
     const msg = {}
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg)
-    const msgs = room.getMsgs()
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    const msgs = room.getMessages()
     expect(msgs)
       .to.be.an('array')
       .to.have.length(3)
@@ -110,14 +110,14 @@ describe('/lib/chat/room', () => {
     const msg = {sent: 1}
     const msg2 = {sent: 0}
     room.addUser('lucas')
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg2)
-    room.newMsg(msg2)
-    const deleted = room.deleteMsgs()
-    const msgs = room.getMsgs()
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg2)
+    room.publishMessage(msg2)
+    const deleted = room.deleteMessages()
+    const msgs = room.getMessages()
     expect(msgs)
       .to.have.length(2)
       .to.have.members([msg2, msg2])
@@ -127,12 +127,12 @@ describe('/lib/chat/room', () => {
   it('should not delete msgs', () => {
     const room = new Room({name: 'lucas'})
     const msg = {}
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg)
-    room.newMsg(msg)
-    const msgs = room.getMsgs()
-    const deleted = room.deleteMsgs()
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    room.publishMessage(msg)
+    const msgs = room.getMessages()
+    const deleted = room.deleteMessages()
     expect(msgs)
       .to.have.length(4)
       .to.have.members([msg, msg, msg, msg])
@@ -150,14 +150,14 @@ describe('/lib/chat/room', () => {
   it('should change the display msg of the Room', () => {
     const room = new Room({name: ''})
     const msg = 'soy un Room'
-    const displayMsg = room.updateDisplayMsg(msg)
+    const displayMsg = room.setDisplayMessage(msg)
     expect(displayMsg)
       .to.be.equal(msg)
   })
   it('should throw on max length msg overpassed', () => {
     const room = new Room({name: ''})
     const msg = 'asdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdasdas'
-    const displayMsg = () => room.updateDisplayMsg(msg)
+    const displayMsg = () => room.setDisplayMsg(msg)
     expect(displayMsg)
       .to.throw(Error)
   })

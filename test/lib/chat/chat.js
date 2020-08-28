@@ -59,7 +59,7 @@ describe('lib/chat/chat.js', () => {
   it('should return messages', () => {
     const chat = new Chat()
     const room = chat.createRoom({name: 'lucas'})
-    const msgs = room.getMsgs()
+    const msgs = room.getMessages()
     expect(msgs)
       .to.be.an('array')
       .to.have.length(0)
@@ -73,16 +73,16 @@ describe('lib/chat/chat.js', () => {
     }
     const msg2 = {
     }
-    chat.sendMsg(msg, id)
-    chat.sendMsg(msg2, id)
-    const msgs = room.getMsgs()
+    chat.sendMessage(msg, id)
+    chat.sendMessage(msg2, id)
+    const msgs = room.getMessages()
     expect(msgs)
       .to.have.members([msg, msg2])
       .to.have.length(2)
   })
   it('should throw on invalid msg or id', () => {
     const chat = new Chat()
-    const result = () => chat.sendMsg({}, 2)
+    const result = () => chat.sendMessage({}, 2)
     expect(result)
       .to.throw(Error)
   })

@@ -96,14 +96,11 @@ describe('/lib/chat/room', () => {
     const room = new Room({name: 'lucas'})
     const feed = room.addUser('lucas')
     const msg = {}
+    let recieved
+    feed.on('send-message', (message) => recieved = message)
     room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    const msgs = feed.getMessages()
-    expect(msgs)
-      .to.be.an('array')
-      .to.have.length(3)
-      .to.have.members([msg, msg, msg])
+    expect(recieved)
+      .to.be.equal(msg)
   })
 
   it('should return the room administrator', () => {

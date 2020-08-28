@@ -60,17 +60,13 @@ describe('lib/chat/chat.js', () => {
     const chat = new Chat()
     const room = chat.createRoom({name: 'lucas'})
     const feed = room.addUser('lucas')
+    let msgRecieved
+    feed.on('send-message', (message) => msgRecieved = message)
     const id = room.getId()
-    const msg = {
-    }
-    const msg2 = {
-    }
+    const msg = {}
     chat.sendMessage(msg, id)
-    chat.sendMessage(msg2, id)
-    const msgs = feed.getMessages()
-    expect(msgs)
-      .to.have.members([msg, msg2])
-      .to.have.length(2)
+    expect(msg)
+      .to.be.equal(msgRecieved)
   })
   it('should throw on invalid msg or id', () => {
     const chat = new Chat()

@@ -24,4 +24,12 @@ describe('/lib/chat/feed', () => {
     expect(belongs)
       .to.be.false
   })
+
+  it('should return the lastDate', () => {
+    const user = {lastDate: Date.now()}
+    const feed = new Feed(user)
+    const date = feed.lastDate()
+    expect(date)
+      .to.be.a('number')
+  })
 })

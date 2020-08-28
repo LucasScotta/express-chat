@@ -94,50 +94,16 @@ describe('/lib/chat/room', () => {
 
   it('should add a new msg', () => {
     const room = new Room({name: 'lucas'})
+    const feed = room.addUser('lucas')
     const msg = {}
     room.publishMessage(msg)
     room.publishMessage(msg)
     room.publishMessage(msg)
-    const msgs = room.getMessages()
+    const msgs = feed.getMessages()
     expect(msgs)
       .to.be.an('array')
       .to.have.length(3)
       .to.have.members([msg, msg, msg])
-  })
-
-  it('should delete sent msgs', () => {
-    const room = new Room({name: 'lucas'})
-    const msg = {sent: 1}
-    const msg2 = {sent: 0}
-    room.addUser('lucas')
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg2)
-    room.publishMessage(msg2)
-    const deleted = room.deleteMessages()
-    const msgs = room.getMessages()
-    expect(msgs)
-      .to.have.length(2)
-      .to.have.members([msg2, msg2])
-    expect(deleted)
-      .to.be.true
-  })
-  it('should not delete msgs', () => {
-    const room = new Room({name: 'lucas'})
-    const msg = {}
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    room.publishMessage(msg)
-    const msgs = room.getMessages()
-    const deleted = room.deleteMessages()
-    expect(msgs)
-      .to.have.length(4)
-      .to.have.members([msg, msg, msg, msg])
-    expect(deleted)
-      .to.be.false
   })
 
   it('should return the room administrator', () => {

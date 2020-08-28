@@ -56,18 +56,10 @@ describe('lib/chat/chat.js', () => {
       .to.be.equal(false)
   })
 
-  it('should return messages', () => {
-    const chat = new Chat()
-    const room = chat.createRoom({name: 'lucas'})
-    const msgs = room.getMessages()
-    expect(msgs)
-      .to.be.an('array')
-      .to.have.length(0)
-  })
-
   it('should send a msg to the specified room', () => {
     const chat = new Chat()
     const room = chat.createRoom({name: 'lucas'})
+    const feed = room.addUser('lucas')
     const id = room.getId()
     const msg = {
     }
@@ -75,7 +67,7 @@ describe('lib/chat/chat.js', () => {
     }
     chat.sendMessage(msg, id)
     chat.sendMessage(msg2, id)
-    const msgs = room.getMessages()
+    const msgs = feed.getMessages()
     expect(msgs)
       .to.have.members([msg, msg2])
       .to.have.length(2)

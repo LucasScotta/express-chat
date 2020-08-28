@@ -24,4 +24,12 @@ describe('/lib/chat/feed', () => {
     expect(belongs)
       .to.be.false
   })
+
+  it('should delete listeners', () => {
+    const feed = new Feed('lucas')
+    feed.on('send-message', () => console.log())
+    feed.stop()
+    expect(feed.emit('send-message'))
+      .to.be.false
+  })
 })

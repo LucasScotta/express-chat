@@ -107,7 +107,6 @@ const refreshChat = () => {
         return location.href = resp.data.url
       }
       if(resp.data.message) {
-        console.log(resp.data.message.length)
         const div = document.createElement('div')
         writeMsg(div, chat, resp.data)
         div.scrollIntoView(true)

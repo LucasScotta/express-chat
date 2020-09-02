@@ -44,7 +44,6 @@ describe("when path is '/api/login/create'", () => {
         .expect(200)
         .end(done)
     })
-    //FALTA BORRAR EL ARCHIVO (after?)
     after((done) => {
       console.log(config.path)
       unlink(config.path + '/user.json', done)

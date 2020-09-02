@@ -1,10 +1,10 @@
 const request = require('../server/request')
 
 describe("when path is '/api'", () => {
-  it("should response a 404", (done) => {
+  it("should response the home page", (done) => {
     request()
       .get('/api')
-      .expect(404)
+      .expect(200, /Home/, /Welcome/)
       .end(done)
   })
 })

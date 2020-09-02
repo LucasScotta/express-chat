@@ -22,10 +22,10 @@ describe("when path is '/api/llamaste'", () => {
   })
 
   describe("when logged off", () => {
-    it('should response a 301 and login page', (done) => {
+    it('should response a 302 and login page', (done) => {
       request()
         .get('/api/llamaste')
-        .expect(302)
+        .expect(302, /Redirecting to \//)
         .expect('Content-Type', /text/)
         .end(done)
     })

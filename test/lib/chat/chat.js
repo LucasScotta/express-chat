@@ -24,20 +24,18 @@ describe('lib/chat/chat.js', () => {
 
   it('should return created rooms', () => {
     const chat = new Chat()
-    const r0 = chat.getRoom(6)
     const r1 = chat.createRoom({name: 'lucas'})
     const r2 = chat.createRoom({name: 'lucas'})
     const r3 = chat.createRoom({name: 'lucas'})
     const rooms = chat.getRooms()
     expect(rooms)
       .to.be.an('array')
-      .to.have.length(4)
-      .to.have.members([r0, r1, r2, r3])
+      .to.have.length(3)
+      .to.have.members([r1, r2, r3])
   })
 
   it('should delete a room, existing', () => {
     const chat = new Chat()
-    const r0 = chat.getRoom(10)
     const r1 = chat.createRoom({name: 'lucas'})
     const r2 = chat.createRoom({name: 'lucas'})
     const r3 = chat.createRoom({name: 'lucas'})
@@ -45,9 +43,10 @@ describe('lib/chat/chat.js', () => {
     expect(removed)
       .to.be.equal(true)
     const rooms = chat.getRooms()
+    console.log(rooms)
     expect(rooms)
-      .to.have.length(3)
-      .to.have.members([r0, r1, r3])
+      .to.have.length(2)
+      .to.have.members([r1, r3])
   })
   it('should delete a room, non existing', () => {
     const chat1 = new Chat()

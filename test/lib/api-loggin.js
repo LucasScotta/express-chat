@@ -10,7 +10,8 @@ describe("when path is loggin", () => {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send('user=lucas')
         .send('pass=pass')
-        .expect(200, done)
+        .expect(302, /Redirecting to \//)
+        .end(done)
     })
     it('should response a 417 and text', (done) => {
       agent
@@ -23,7 +24,7 @@ describe("when path is loggin", () => {
   describe("when not logged", () => {
     it("should response a 200 and loggin page", (done) => {
       request()
-        .get('/api/login')
+        .get('/loggin.html')
         .expect(200, /form/)
         .expect(/button/)
         .expect(/user/)
@@ -40,27 +41,25 @@ describe("when path is loggin", () => {
 
   describe("when user or pass are wrong", () => {
     describe("when user is wrong", () => {
-      it("should respnse a 417 and loggin page", (done) => {
+      it("should respnse a 302 and loggin page", (done) => {
         request()
           .post('/api/login')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=wrong user')
           .send('pass=pass')
-          .expect('Content-Type', /text\/html/)
-          .expect(417, /form/)
+          .expect(302, /loggin\.html/)
           .end(done)
       })
     })
 
     describe("when pass is wrong", () => {
-      it("should response a 417 and loggin page", (done) => {
+      it("should response a 302 and loggin page", (done) => {
         request()
           .post('/api/login')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=lucas')
-          .send('pass=password')
-          .expect('Content-Type', /text\/html/)
-          .expect(417, /form/)
+          .send('pass=wrong password')
+          .expect(302, /loggin\.html/)
           .end(done)
       })
     })
@@ -68,25 +67,25 @@ describe("when path is loggin", () => {
 
   describe("when there is not user or pass", () => {
     describe("when there is not user", () => {
-      it("should response a 417, and loggin page", (done) => {
+      it("should response a 302, and loggin page", (done) => {
         request()
           .post('/api/login')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=lucas')
           .expect('Content-Type', /text/)
-          .expect(417)
+          .expect(302, /loggin\.html/)
           .end(done)
       })
     })
 
     describe("when there is not pass", () => {
-      it("should response a 417, and loggin page", (done) => {
+      it("should response a 302, and loggin page", (done) => {
         request()
           .post('/api/login')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('pass=lucas')
           .expect('Content-Type', /text/)
-          .expect(417)
+          .expect(302, /loggin\.html/)
           .end(done)
       })
     })

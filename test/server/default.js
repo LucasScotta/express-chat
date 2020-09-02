@@ -1,11 +1,10 @@
 const request = require('./request')
 
 describe("when path is '/'", () => {
-  it("should send 'Bienvenido'", (done) => {
+  it("should response the home page", (done) => {
     request()
       .get('/')
-      .expect('Bienvenido')
-      .expect(200)
+      .expect(200, /Home/, /Welcome/)
       .end(done)
   })
 })

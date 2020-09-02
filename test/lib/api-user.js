@@ -9,7 +9,8 @@ describe("when path is '/api/user'", () => {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send('user=lucas')
         .send('pass=pass')
-        .expect(200, done)
+        .expect(302, /Redirecting to \//)
+        .end(done)
     })
     it('should response a json document with count', (done) => {
       agent
@@ -20,10 +21,10 @@ describe("when path is '/api/user'", () => {
     })
   })
   describe("when not logged", () => {
-    it("should response a 301 and login page", (done) => {
+    it("should response a 302 and login page", (done) => {
       request()
         .get('/api/user')
-        .expect(301, /form/)
+        .expect(302, /loggin\.html/)
         .expect('Content-Type', /text/)
         .end(done)
     })

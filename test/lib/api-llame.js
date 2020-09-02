@@ -22,11 +22,10 @@ describe("when path is '/api/llame'", () => {
     })
   })
   describe("when logged off", () => {
-    it('should response a 301 with login page', (done) => {
+    it('should response a 302 with login page', (done) => {
       request()
         .get('/api/llame')
-        .expect(302)
-        .expect('Content-Type', /text\/html/)
+        .expect(302, /Redirecting to \/loggin\.html/)
         .end(done)
     })
   })

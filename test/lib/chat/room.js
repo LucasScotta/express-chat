@@ -120,9 +120,9 @@ describe('/lib/chat/room', () => {
   it('should throw on max length msg overpassed', () => {
     const room = new Room({name: ''})
     const msg = 'asdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdaasdasdasdasdas'
-    const displayMsg = () => room.setDisplayMsg(msg)
-    expect(displayMsg)
-      .to.throw(Error)
+    const call = () => room.setDisplayMessage(msg)
+    expect(call)
+      .to.throw(/El mensaje debe contener menos de 64 caracteres/)
   })
 })
 

@@ -5,5 +5,6 @@ module.exports = {
   globals: {
     expect: true,
     assert: true,
+    chai: true,
   },
 }

@@ -9,7 +9,7 @@ describe("when path is '/api/llamaste'", () => {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send('user=lucas')
         .send('pass=pass')
-        .expect(200)
+        .expect(302)
         .end(done)
     })
     it('should response a json document with count', (done) => {
@@ -25,7 +25,7 @@ describe("when path is '/api/llamaste'", () => {
     it('should response a 301 and login page', (done) => {
       request()
         .get('/api/llamaste')
-        .expect(301, /form/)
+        .expect(302)
         .expect('Content-Type', /text/)
         .end(done)
     })

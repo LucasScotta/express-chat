@@ -24,7 +24,7 @@ describe("when path is '/api/user'", () => {
     it("should response a 302 and login page", (done) => {
       request()
         .get('/api/user')
-        .expect(302, /loggin\.html/)
+        .expect(302, /loggin/)
         .expect('Content-Type', /text/)
         .end(done)
     })

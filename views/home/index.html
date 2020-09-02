@@ -1,0 +1,11 @@
+<%- include('header.html') -%>
+<%if (user) { %>
+<span id="user-name"><%= user %></span>
+<span><a href="/api/logout">Disconnect</a></span>
+<%- include('fooder.html') -%>
+<% }
+  else { %>
+<span><a href="loggin">Loggin</a></span>
+<% } %>
+</body>
+</html>

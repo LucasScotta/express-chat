@@ -60,35 +60,35 @@ describe('lib/chat/chat.js', () => {
     const chat = new Chat()
     const room = chat.createRoom({name: 'lucas'})
     const feed = room.addUser('lucas')
-    const id = room.getId()
+    const roomId = room.getId()
     let msgRecieved
     feed.on('message', (message) => {
       msgRecieved = message
     })
-    const msg = {}
-    chat.sendMessage(msg, id)
-    expect(msg)
+    const message = { message: 'hola', roomId}
+    chat.sendMessage(message, roomId)
+    expect(message)
       .to.be.equal(msgRecieved)
   })
   it('should throw on invalid msg', () => {
     const chat = new Chat()
     const room = chat.createRoom('')
-    const id = room.getId()
-    const result = () => chat.sendMessage(null, id)
+    const roomId = room.getId()
+    const result = () => chat.sendMessage({ message: null, roomId })
     expect(result)
-      .to.throw(/Invalid message, expected object but got object/)
+      .to.throw(/Invalid message, expected string but got undefined/)
   })
   it('should throw on invalid Id', () => {
     const chat = new Chat()
-    const result = () => chat.sendMessage({}, 'a')
+    const result = () => chat.sendMessage({message: 'hola', roomId: 'a'})
     expect(result)
       .to.throw(/Invalid room ID/)
   })
   it('should throw on invalid Room Id', () => {
     const chat = new Chat()
     const room = chat.createRoom('')
-    const id = room.getId()
-    const result = () => chat.sendMessage({}, id + 1)
+    const roomId = room.getId()
+    const result = () => chat.sendMessage({message: 'hola', roomdId: roomId + 1})
     expect(result)
       .to.throw(/Invalid room ID/)
   })

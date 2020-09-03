@@ -1,5 +1,4 @@
 const Feed = require('../../../lib/axios-routes/chat/feed')
-const util = require('../../../lib/axios-routes/chat/util')
 
 describe('/lib/chat/feed', () => {
   it('should return its user', () => {

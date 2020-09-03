@@ -1,8 +1,7 @@
 const Room = require('../../../lib/axios-routes/chat/room')
 
 describe('intgr/chat/room', () => {
-
-  it('should send messages to some users', () => {
+  it.only('should send messages to some users', () => {
     const room = new Room({name: 'lucas'})
 
     const spy1 = chai.spy()
@@ -17,10 +16,9 @@ describe('intgr/chat/room', () => {
 
     feed1.on('message', spy1)
     feed2.on('message', spy2)
-    room.publishMessage(payload1)
-    room.publishMessage(payload2)
-    room.publishMessage(payload3)
-
+    setTimeout(() => room.publishMessage(payload1), 5000)
+    setTimeout(() => room.publishMessage(payload2), 10000)
+    setTimeout(() => room.publishMessage(payload3), 15000)
     expect(spy1)
       .to.be.called(3)
       .on.nth(1).with(payload1)

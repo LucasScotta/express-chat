@@ -26,7 +26,7 @@ describe('/lib/chat/feed', () => {
       .to.be.false
   })
 
-  it('should delete listeners', () => {
+  it('should clear Timeout', () => {
     const feed = new Feed('lucas')
     feed.start()
     const timer = feed.stop()

@@ -1,7 +1,7 @@
 const Room = require('../../../lib/axios-routes/chat/room')
 
 describe('intgr/chat/room', () => {
-  it.only('should send messages to some users', () => {
+  it('should send messages to some users', () => {
     const room = new Room({name: 'lucas'})
 
     const spy1 = chai.spy()

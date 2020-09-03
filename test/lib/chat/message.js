@@ -78,6 +78,16 @@ describe('lib/chat/message', () => {
       .to.be.a('string')
   })
 
+  it("should return the message's Date", () => {
+    const message = new Message()
+    const date = Date.now()
+    message.create({message: 'a', roomId: 1, user: 'lucas', date})
+    const msgDate = message.getDate()
+    expect(msgDate)
+      .to.be.a('number')
+      .to.be.equal(date)
+  })
+
   it("should return the message's room id", () => {
     const roomId = 1
     const message = new Message()

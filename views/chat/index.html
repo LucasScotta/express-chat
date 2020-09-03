@@ -1,0 +1,116 @@
+<html>
+ <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&display=swap" rel="stylesheet">
+  <head>
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+  }
+  body {
+    font-family: 'Merriweather', serif;
+  }
+  #chat {
+    overflow-y: scroll;
+    margin-top: 25px;
+    margin-left: 10px;
+    width: 1000px;
+    height: 772px;
+    border: 10px solid black;
+    text-align: left;
+  }
+  #send {
+    overflow-y: visible;
+    text-align: justify;
+    font-size: 50px;
+    margin-left: 10px;
+    display: inline-block;
+    width: 815px;
+    height: 100px;
+    border: 5px solid black;
+    margin-top: 10px;
+  }
+  .btn-send {
+    font-size: 40px;
+    display: inline-table;
+    position: absolute;
+    margin-left: 10px;
+    margin-top: 30px;
+    height: 60px;
+    width: 180px;
+  }
+  .message {
+    text-align: justify;
+    padding-left: 10px;
+    color: white;
+    margin-left: 20px;
+    margin-top: 5px;
+    font-size: 35px;
+    /*background-color: black;*/
+  }
+</style>
+    <title>CHAT</title>
+  </head>
+  <body>
+    <center>
+      <div id="chat"></div>
+        <label for="messages">
+          <input id="send" name="message">
+        </label>
+      <button onclick="sendMsg(document.getElementById('send').value)" class="btn-send">Send</button>
+    </center>
+  </body>
+</html>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+  const msgElement = document.getElementById('send')
+  const chat = document.getElementById('chat')
+  document.onkeydown = (event) => {
+    if (event.keyCode === 13) return sendMsg(msgElement.value)
+    if (event.keyCode === 221) return axios.get('/debug')
+  }
+const sendMsg = (message) => {
+  axios.post('/msg', { message, roomId:1 })
+  msgElement.value = ""
+  }
+const backgroundHeight = (n, div) => {
+  let maxLength = 28
+  let height = 45
+  const text = div.innerText.split('')
+  if (text.length > 125) {
+    text.splice(132, text.length - 1)
+  }
+  while(text.length > maxLength) {
+    text.splice(maxLength, 0, ' \n ')
+    maxLength += 28
+    height += 45
+  }
+  div.innerText = text.join("")
+  return height
+}
+const writeMsg = (div, chat, data) => {
+  div.className = 'message'
+  div.style.backgroundColor = 'black'
+  div.innerText = `${data.name}: ${data.message}`
+  const background = backgroundHeight(50, div)
+  div.style.height = background
+  chat.appendChild(div)
+}
+
+const roomIds = []
+
+const refreshChat = () => {
+  axios
+    .get('/msg?roomId=1')
+    .then((resp) => {
+        console.log(resp.data)
+      if(resp.data.message) {
+        const div = document.createElement('div')
+        writeMsg(div, chat, resp.data)
+        div.scrollIntoView(true)
+      }
+      refreshChat()
+    })
+}
+refreshChat()
+</script>

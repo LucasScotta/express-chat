@@ -1,4 +1,5 @@
 const Feed = require('../../../lib/axios-routes/chat/feed')
+const util = require('../../../lib/axios-routes/chat/util')
 
 describe('/lib/chat/feed', () => {
   it('should return its user', () => {
@@ -27,10 +28,21 @@ describe('/lib/chat/feed', () => {
 
   it('should delete listeners', () => {
     const feed = new Feed('lucas')
-    feed.on('send-message', () => console.log())
-    feed.stop()
-    expect(feed.emit('send-message'))
-      .to.be.false
+    feed.start()
+    const timer = feed.stop()
+    expect(timer._idleTimeout)
+      .to.be.equal(-1)
+    expect(timer._onTimeout)
+      .to.be.null
+  })
+  it('should set timeout', () => {
+    const feed = new Feed('lucas')
+    const start = feed.start()
+    expect(start)
+      .to.be.an('object')
+      .to.have.property('_idleTimeout')
+    expect(start._idleTimeout)
+      .to.be.most(200)
   })
 
   it('should send messages', () => {
@@ -52,4 +64,5 @@ describe('/lib/chat/feed', () => {
       .on.nth(2).with(payload2)
       .on.nth(3).with(payload3)
   })
+
 })

@@ -13,7 +13,7 @@ describe('When path is chat.html', () => {
         .expect('Content-Type', /text/)
         .end(done)
     })
-    it.only('should response the chat', (done) => {
+    it('should response the chat', (done) => {
       agent
         .get('/chat.html')
         .expect(200, /chat/, /messages/, /send/, /message/)

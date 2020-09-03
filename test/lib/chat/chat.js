@@ -54,7 +54,7 @@ describe('lib/chat/chat.js', () => {
     const room = chat1.createRoom({name: 'lucas'})
     const removed = chat2.removeRoom(room)
     expect(removed)
-      .to.be.equal(false)
+      .to.be.false
   })
 
   it('should send a msg to the specified room', () => {

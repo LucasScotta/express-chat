@@ -29,4 +29,14 @@ describe('lib/chat/message', () => {
     expect(msg2)
       .to.throw(/invalid data: missing room id/)
   })
+
+  it('should return the message', () => {
+    const msge = 'asd'
+    const message = new Message()
+    message.create({message: msge, roomId: 1})
+    const msg = message.getMessage()
+    expect(msg)
+      .to.be.equal(msge)
+      .to.be.a('string')
+  })
 })

@@ -49,4 +49,12 @@ describe('lib/chat/message', () => {
       .to.be.equal(roomId)
       .to.be.a('number')
   })
+
+  it("should return the message's data", () => {
+    const message = new Message()
+    const data = {message: 'a', roomId: 1}
+    const msg = message.create(data)
+    expect(msg)
+      .to.be.equal(data)
+  })
 })

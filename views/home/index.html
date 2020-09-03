@@ -1,11 +1,18 @@
+<!DOCTYPE html>
+<html>
 <%- include('header.html') -%>
-<%if (user) { %>
-<span id="user-name"><%= user %></span>
-<span><a href="/api/logout">Disconnect</a></span>
-<%- include('fooder.html') -%>
-<% }
-  else { %>
-<span><a href="loggin">Loggin</a></span>
-<% } %>
+<body id="body">
+  <center>
+    <div id="container">
+      <span>Welcome</span>
+      <%if (user) { %>
+        <span id="user-name"><%= user %></span>
+        <span><a href="/api/logout">Disconnect</a></span>
+        <%- include('footer.html') -%>
+      <% } else { %>
+        <span><a href="loggin">Loggin</a></span>
+      <% } %>
+    </div>
+  </center>
 </body>
 </html>

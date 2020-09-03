@@ -1,6 +1,6 @@
 const request = require('../server/request')
 
-describe('When path is chat.html', () => {
+describe('When path is chat', () => {
   describe('When logged', () => {
     const agent = request.agent()
     before((done) => {
@@ -13,19 +13,19 @@ describe('When path is chat.html', () => {
         .expect('Content-Type', /text/)
         .end(done)
     })
-    it('should response the chat', (done) => {
+    it('should response 200 and chat', (done) => {
       agent
-        .get('/chat.html')
+        .get('/chat')
         .expect(200, /chat/, /messages/, /send/, /message/)
         .end(done)
     })
   })
 
   describe('When not logged', () => {
-    it.only('should response a 302 to the loggin form', (done) => {
+    it('should response a 200 to the loggin form', (done) => {
       request()
-        .get('/chat.html')
-        .expect(302, /Redirecting to \/loggin/)
+        .get('/chat')
+        .expect(200, /form/, /user/, /pass/)
         .end(done)
     })
   })

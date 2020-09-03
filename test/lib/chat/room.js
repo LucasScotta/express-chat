@@ -97,7 +97,7 @@ describe('/lib/chat/room', () => {
     const feed = room.addUser('lucas')
     const msg = {}
     let recieved
-    feed.on('send-message', (message) => recieved = message)
+    feed.on('message', (message) => recieved = message)
     room.publishMessage(msg)
     expect(recieved)
       .to.be.equal(msg)

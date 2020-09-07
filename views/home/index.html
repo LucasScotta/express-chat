@@ -7,7 +7,7 @@
       <span>Welcome</span>
       <%if (user) { %>
         <span id="user-name"><%= user %></span>
-        <span><a href="/api/logout">Disconnect</a></span>
+        <span><a href="/logout">Disconnect</a></span>
         <%- include('footer.html') -%>
       <% } else { %>
         <span><a href="loggin">Loggin</a></span>

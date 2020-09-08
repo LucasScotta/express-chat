@@ -1,20 +1,15 @@
 const request = require('../server/request')
+const util = require('../server/util')
 
-describe("when path is '/api/logout'", () => {
+describe("when path is '/logout'", () => {
   describe("when logged", () => {
     const agent = request.agent()
     before((done) => {
-      agent
-        .post('/api/login')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send('user=lucas')
-        .send('pass=pass')
-        .expect(302, /Redirecting to \//)
-        .end(done)
+      util.loggin(agent, done)
     })
     it('should response a 200', (done) => {
       agent
-        .get('/api/logout')
+        .get('/logout')
         .expect(200, 'Unlogged correctly')
         .end(done)
     })

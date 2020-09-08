@@ -1,7 +1,7 @@
-const Chat = require('../../../lib/axios-routes/chat')()
-const Room = require('../../../lib/axios-routes/chat/room')
+const Chat = require('../../../lib/routes/chat')()
+const Room = require('../../../lib/routes/chat/room')
 
-describe('lib/chat/chat.js', () => {
+describe('lib/routes/chat.js', () => {
   it('should create a room', () => {
     const chat = new Chat()
     const room = chat.createRoom({name: 'lucas'})

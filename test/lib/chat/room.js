@@ -1,7 +1,7 @@
-const Room = require('../../../lib/axios-routes/chat/room')
-const Feed = require('../../../lib/axios-routes/chat/feed')
+const Room = require('../../../lib/routes/chat/room')
+const Feed = require('../../../lib/routes/chat/feed')
 
-describe('/lib/chat/room', () => {
+describe('/lib/routes/chat/room', () => {
   it('should auto-assign room ids', () => {
     const room1 = new Room({name: 'lucas'})
     const room2 = new Room({name: 'lucas'})

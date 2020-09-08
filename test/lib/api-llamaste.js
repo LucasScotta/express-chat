@@ -1,20 +1,15 @@
 const request = require('../server/request')
+const util = require('../server/util')
 
-describe("when path is '/api/llamaste'", () => {
+xdescribe("when path is 'llamaste'", () => {
   describe("when logged", () => {
     const agent = request.agent()
     before('log', (done) => {
-      agent
-        .post('/api/login')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send('user=lucas')
-        .send('pass=pass')
-        .expect(302)
-        .end(done)
+      util.loggin(agent, done)
     })
     it('should response a json document with count', (done) => {
       agent
-        .get('/api/llamaste')
+        .get('/llamaste')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(done)
@@ -24,7 +19,7 @@ describe("when path is '/api/llamaste'", () => {
   describe("when logged off", () => {
     it('should response a 302 and login page', (done) => {
       request()
-        .get('/api/llamaste')
+        .get('/llamaste')
         .expect(302, /Redirecting to \//)
         .expect('Content-Type', /text/)
         .end(done)

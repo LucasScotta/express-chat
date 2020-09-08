@@ -1,17 +1,12 @@
 const request = require('../server/request')
+const util = require('../server/util')
 
 describe("When path is '/'", () => {
   describe("When logged", () => {
     const agent = request.agent()
     before((done) => {
-      agent
-        .post('/api/login')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send('user=lucas')
-        .send('pass=pass')
-        .expect(302, /Redirecting to \//)
-        .end(done)
-      })
+      util.loggin(agent, done)
+    })
     it('should response the logged home page', (done) => {
       agent
         .get('/')

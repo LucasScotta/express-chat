@@ -5,7 +5,7 @@ describe('When path is chat', () => {
     const agent = request.agent()
     before((done) => {
       agent
-        .post('/api/login')
+        .post('/loggin')
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send('user=lucas')
         .send('pass=pass')

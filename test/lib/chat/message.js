@@ -1,6 +1,6 @@
-const Message = require('../../../lib/axios-routes/chat/message')
+const Message = require('../../../lib/routes/chat/message')
 
-describe('lib/chat/message', () => {
+describe('lib/routes/chat/message', () => {
 
   it('should create messages', () => {
     const message = new Message()

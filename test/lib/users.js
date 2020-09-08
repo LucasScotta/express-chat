@@ -1,14 +1,9 @@
 const config = require('../config')
 const users = require('../../lib/users')(config)
-const fs = require('fs')
+const unlink = require('./unlink')
 
 describe('/lib/routes/users', () => {
-  const unlink = (path, next) => {
-    fs.unlink(path, (err) => {
-      if(err && err.code !== 'ENOENT') next(err)
-      else next()
-    })
-  }
+
   describe('add method', () => {
     describe('when file doesn`t exists', () => {
       before((done) => {

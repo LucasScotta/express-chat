@@ -1,4 +1,4 @@
-const Room = require('../../../lib/axios-routes/chat/room')
+const Room = require('../../../lib/routes/chat/room')
 
 describe('intgr/chat/room', () => {
   it('should send messages to some users', () => {

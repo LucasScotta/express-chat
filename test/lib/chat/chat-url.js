@@ -2,6 +2,17 @@ const request = require('../../server/request')
 const util = require('../../server/util')
 
 describe('/msg', () => {
+  describe("Creating room", () => {
+    const agent = request.agent()
+    before('log', done => {
+      util.loggin(agent, done)
+    })
+    it("Should create a room", done => {
+      agent
+        .get('/msg/create')
+        .expect(200, done)
+    })
+  })
   describe("When path is a get on /msg", () => {
 
     describe("When not logged", () => {

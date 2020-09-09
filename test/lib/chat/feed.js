@@ -3,7 +3,7 @@ const Feed = require('../../../lib/routes/chat/feed')
 describe('/lib/routes/chat/feed', () => {
   it('should return its user', () => {
     const user = 'lucas'
-    const feed = new Feed(user)
+    const feed = new Feed({name: user})
     const result = feed.getUser()
     expect(result)
       .to.be.equal(user)
@@ -11,7 +11,7 @@ describe('/lib/routes/chat/feed', () => {
 
   it('should belong to user', () => {
     const user = 'lucas'
-    const feed = new Feed(user)
+    const feed = new Feed({name: user})
     const belongs = feed.belongsTo(user)
     expect(belongs)
       .to.be.true

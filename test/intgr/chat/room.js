@@ -1,6 +1,6 @@
 const Room = require('../../../lib/routes/chat/room')
 
-describe('intgr/chat/room', () => {
+xdescribe('intgr/chat/room', () => {
   it('should send messages to some users', () => {
     const room = new Room({name: 'lucas'})
 

@@ -40,7 +40,6 @@ describe('/lib/routes/chat/feed', () => {
     expect(start)
       .to.be.an('object')
       .to.have.property('_idleTimeout')
-    console.log(start)
     expect(start._idleTimeout)
       .to.be.equal(30000)
     feed.stop()

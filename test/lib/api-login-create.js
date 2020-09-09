@@ -45,7 +45,6 @@ describe("when path is '/loggin/create'", () => {
         .end(done)
     })
     after((done) => {
-      console.log(config.path)
       unlink(config.path + '/user.json', done)
     })
   })

@@ -1,6 +1,6 @@
 const Chat = require('../../../lib/routes/chat')()
 const Message = require('../../../lib/routes/chat/message')
-describe('intgr/chat', () => {
+xdescribe('intgr/chat', () => {
   it('should send msg to all the feeds', () => {
     const chat = new Chat()
     const message = new Message()

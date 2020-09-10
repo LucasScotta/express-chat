@@ -3,7 +3,7 @@ const Feed = require('../../../lib/routes/chat/feed')
 describe('/lib/routes/chat/feed', () => {
   it('should return its user', () => {
     const user = 'lucas'
-    const feed = new Feed({name: user})
+    const feed = new Feed({}, {name: user})
     const result = feed.getUser()
     expect(result)
       .to.be.equal(user)
@@ -11,22 +11,22 @@ describe('/lib/routes/chat/feed', () => {
 
   it('should belong to user', () => {
     const user = 'lucas'
-    const feed = new Feed({name: user})
+    const feed = new Feed({}, {name: user})
     const belongs = feed.belongsTo(user)
     expect(belongs)
       .to.be.true
   })
 
   it('should not belong to user', () => {
-    const user = 'lucas'
-    const feed = new Feed('martin')
-    const belongs = feed.belongsTo(user)
+    const name = 'lucas'
+    const feed = new Feed({}, {name: 'martin'})
+    const belongs = feed.belongsTo({name})
     expect(belongs)
       .to.be.false
   })
 
   it('should clear Timeout', () => {
-    const feed = new Feed('lucas')
+    const feed = new Feed({}, {name: 'lucas'})
     feed.start()
     const timer = feed.stop()
     expect(timer._idleTimeout)
@@ -34,8 +34,8 @@ describe('/lib/routes/chat/feed', () => {
     expect(timer._onTimeout)
       .to.be.null
   })
-  it('should set timeout', () => {
-    const feed = new Feed('lucas')
+  it('should set Timeout', () => {
+    const feed = new Feed({}, {name: 'lucas'})
     const start = feed.start()
     expect(start)
       .to.be.an('object')
@@ -46,7 +46,7 @@ describe('/lib/routes/chat/feed', () => {
   })
 
   it('should send messages', () => {
-    const feed = new Feed('lucas')
+    const feed = new Feed({}, {name: 'lucas'})
     const spy = chai.spy()
     feed.on('message', spy)
     const payload1 = {

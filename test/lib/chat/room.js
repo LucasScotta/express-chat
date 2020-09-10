@@ -15,7 +15,7 @@ describe('/lib/routes/chat/room', () => {
   it('should add an user', () => {
     const room = new Room({name: 'lucas'})
     const user = {name: 'lucas'}
-    const feed = room.addUser(user)
+    const feed = room.addUser({}, user)
     expect(feed)
       .to.be.instanceof(Feed)
   })
@@ -27,15 +27,15 @@ describe('/lib/routes/chat/room', () => {
   })
   it('should add an user twice', () => {
     const room = new Room({name: 'lucas'})
-    const f1 = room.addUser({name: 'pepe'})
-    const f2 = room.addUser({name: 'pepe'})
+    const f1 = room.addUser({}, {name: 'pepe'})
+    const f2 = room.addUser({}, {name: 'pepe'})
     expect(f2.name)
       .to.be.equal(f1.name)
   })
 
   it('should have user', () => {
     const room = new Room({name: 'lucas'})
-    room.addUser({name:'lucas'})
+    room.addUser({}, {name:'lucas'})
     const result = room.hasUser({name:'lucas'})
     expect(result)
       .to.be.true
@@ -51,8 +51,8 @@ describe('/lib/routes/chat/room', () => {
     const room = new Room({name: 'lucas'})
     const user1 = 'lucas'
     const user2 = 'martin'
-    room.addUser({name: user1})
-    room.addUser({name: user2})
+    room.addUser({}, {name: user1})
+    room.addUser({}, {name: user2})
     const users = room.getUsers()
     expect(users)
       .to.be.an('array')
@@ -66,18 +66,9 @@ describe('/lib/routes/chat/room', () => {
     expect(removed)
       .to.be.equal(false)
   })
-  it('should remove an existing user', () => {
-    const room = new Room({name: 'lucas'})
-    const user = 'olivia'
-    room.addUser({name: user})
-    const removed = room.removeUser(user)
-    expect(removed)
-      .to.be.equal(true)
-  })
-
   it('should remove an existing feed', () => {
     const room = new Room({name: 'lucas'})
-    const feed = room.addUser({name:'lucas'})
+    const feed = room.addUser({}, {name:'lucas'})
     room.removeFeed(feed)
     expect(room.hasUser({name:'lucas'}))
       .to.be.false
@@ -85,7 +76,7 @@ describe('/lib/routes/chat/room', () => {
   it('should throw on invalid feed', () => {
     const room1 = new Room({name: 'lucas'})
     const room2 = new Room({name: 'lucas'})
-    const feed = room1.addUser({name:'lucas'})
+    const feed = room1.addUser({}, {name:'lucas'})
     const call = () => room2.removeFeed(feed)
     expect(call)
       .to.throw(/invalid feed/)
@@ -93,8 +84,8 @@ describe('/lib/routes/chat/room', () => {
 
   it('should add a new msg', () => {
     const room = new Room({name: 'lucas'})
-    const feed = room.addUser({name:'lucas'})
-    const msg = {}
+    const feed = room.addUser({}, {name:'lucas'})
+    const msg = {roomId: room.getId()}
     let recieved
     feed.on('message', (message) => recieved = message)
     room.publishMessage(msg)

@@ -1,7 +1,7 @@
 const request = require('../../server/request')
 const util = require('../../server/util')
 
-describe('/msg', () => {
+describe('/message', () => {
   describe("Creating room", () => {
     const agent = request.agent()
     before('log', done => {
@@ -9,16 +9,16 @@ describe('/msg', () => {
     })
     it("Should create a room", done => {
       agent
-        .get('/msg/create')
+        .get('/chat/create')
         .expect(200, done)
     })
   })
-  describe("When path is a get on /msg", () => {
+  describe("When path is a get on /message", () => {
 
     describe("When not logged", () => {
       it('should response the loggin page', (done) => {
         request()
-          .get('/msg')
+          .get('/chat/message')
           .query({ roomId:1 })
           .expect(200, /form.+loggin/)
           .end(done)
@@ -33,7 +33,7 @@ describe('/msg', () => {
         })
         it('Should response a 400', (done) => {
           agent
-            .get('/msg')
+            .get('/chat/message')
             .expect(400, done)
         })
       })
@@ -51,7 +51,7 @@ describe('/msg', () => {
         })
         it('should response a 200', (done) => {
           agent
-            .get('/msg')
+            .get('/chat/message')
             .set('Content-Type', 'application/json')
             .query({ roomId:1 })
             .expect(200)
@@ -61,11 +61,11 @@ describe('/msg', () => {
     })
   })
 
-  describe("When path is a post on '/msg'", () => {
+  describe("When path is a post on '/message'", () => {
     describe("When not logged", () => {
       it('Should response the loggin page', (done) => {
         request()
-          .post('/msg', { message:'hola', roomId:1 })
+          .post('/chat/message', { message:'hola', roomId:1 })
           .expect(200, /form.*loggin/)
           .end(done)
       })
@@ -85,7 +85,7 @@ describe('/msg', () => {
         })
         it('Should response a 200', (done) => {
           agent
-            .post('/msg')
+            .post('/chat/message')
             .set('Content-Type', 'application/json')
             .send({roomId:1})
             .expect(200, done)
@@ -105,7 +105,7 @@ describe('/msg', () => {
         })
         it('Should response a 400', done => {
           agent
-            .post('/msg')
+            .post('/chat/message')
             .set('Content-Type', 'application/json')
             .send({message:'hola'})
             .expect(400, done)
@@ -119,7 +119,7 @@ describe('/msg', () => {
         })
         it('should response a 400', done => {
           agent
-            .post('/msg')
+            .post('/chat/message')
             .set('Content-Type', 'application/json')
             .send({message:'hola'})
             .send({roomId:123})
@@ -140,7 +140,7 @@ describe('/msg', () => {
         })
         it('Should response a 200', done => {
           agent
-            .post('/msg')
+            .post('/chat/message')
             .set('Content-Type', 'application/json')
             .send({message:'hola'})
             .send({roomId:1 })

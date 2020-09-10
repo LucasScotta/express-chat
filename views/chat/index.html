@@ -71,7 +71,7 @@
     if (event.keyCode === 221) return axios.get('/debug')
   }
 const sendMsg = (message) => {
-  axios.post('/msg', { message, roomId:1 })
+  axios.post('/chat/message', { message, roomId:1 })
   msgElement.value = ""
   }
 const backgroundHeight = (n, div) => {
@@ -101,7 +101,7 @@ const roomIds = []
 
 const refreshChat = () => {
   axios
-    .get('/msg?roomId=1')
+    .get('/chat/message?roomId=1')
     .then((resp) => {
       if(resp.data.message) {
         const div = document.createElement('div')

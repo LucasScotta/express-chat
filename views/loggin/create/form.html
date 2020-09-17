@@ -5,13 +5,13 @@
     border: 3px solid black;
     width: 400px;
     padding: 25px 150px 15px 25px;
-    height: 350px;
+    height: 270px;
     margin-top: 200px;
     margin-left: 500px;
     border-radius: 50px;
   }
   .casillero {
-    margin-top: 25px;
+    margin-top: 15px;
     padding-left: 10px;
     font-size: 25px;
     width: 500px;
@@ -26,26 +26,29 @@
     width: 100px;
     height: 50px;
   }
+  .title {
+    margin-top: 10px;
+  }
 </style>
 <html>
   <head>
-    <title>Log-In Page</title>
+    <title>Crear cuenta</title>
   </head>
   <body>
-    <form id="form" method="post" action="/loggin">
+    <form id="form" method="post" action="/create">
       <div>
-        <center><h3>LOG IN</h3></center>
-        <div class="casillero">
+        <center><h3 class="title">CREA TU CUENTA</h3></center>
+        <div>
           <label for="User">
-            <input type="text" placeholder="User" name="user" required="">
+            <input class="casillero" type="text" placeholder="Usuario" name="user" required="">
           </label>
         </div>
-        <div class="casillero" style="margin-top: 5px;">
+        <div style="margin-top: 5px;">
           <label for="Password">
-            <input type="password" name="pass" placeholder="Password" required="">
+            <input class="casillero" type="password" name="pass" placeholder="Contraseña" required="">
           </label>
         </div>
-        <center><button type="submit">Log-In</button></center>
+        <center><button class="boton" type="submit">Crear</button></center>
       </div>
     </form>
   </body>

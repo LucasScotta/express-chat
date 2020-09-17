@@ -1,18 +1,46 @@
 <!DOCTYPE html>
 <html>
+<style>
+  #body {
+    display: block;
+  }
+  #container {
+    margin-top: 20px;
+    margin-left: 100px;
+    padding-top: 20px;
+    border: 2px solid black;
+    border-radius: 50px;
+    width: 400px;
+    height: 200px;
+  }
+  .encabezado {
+    margin-top: 40px;
+  }
+  #title {
+    margin-left: 100px;
+  }
+</style>
 <%- include('header.html') -%>
 <body id="body">
   <center>
-    <div id="container">
-      <span>Welcome</span>
+      <div id="title">Bienvenido</div>
       <%if (user) { %>
-        <span id="user-name"><%= user %></span>
-        <span><a href="/logout">Disconnect</a></span>
-        <%- include('footer.html') -%>
+      <div id="container">
+        <div class="encabezado" id="user-name">
+        <span>Hola</span>
+        <span><%= user %>!</span>
+      </div>
+        <div class="encabezado"><a href="/logout">Desconectarse de la cuenta</a></div>
+      </div>
+        <div id="container">
+          <%- include('footer.html') -%>
+        </div>
       <% } else { %>
-        <span><a href="loggin">Loggin</a></span>
+      <div id="container">
+        <div class="encabezado"><a href="loggin">Iniciar sesion</a></div>
+        <div class="encabezado"><a href="create">Crear cuenta</a></div>
+      </div>
       <% } %>
-    </div>
   </center>
 </body>
 </html>

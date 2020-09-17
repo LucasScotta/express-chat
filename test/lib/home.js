@@ -10,7 +10,7 @@ describe("When path is '/'", () => {
     it('should response the logged home page', (done) => {
       agent
         .get('/')
-        .expect(200, /Welcome/, /lucas/, /Disconnect/)
+        .expect(200, /Bienvenido/, /lucas/, /Disconnect/)
         .end(done)
     })
   })
@@ -18,7 +18,7 @@ describe("When path is '/'", () => {
     it('should response the disconnected home page', (done) => {
       request()
         .get('/')
-        .expect(200, /Welcome/, /Loggin/)
+        .expect(200, /Bienvenido/, /Loggin/)
         .end(done)
     })
   })

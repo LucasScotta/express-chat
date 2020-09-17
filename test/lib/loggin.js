@@ -8,10 +8,11 @@ describe("when path is loggin", () => {
     before((done) => {
       util.loggin(agent, done)
     })
-    it('should response a 302 and redirect', (done) => {
+    it('should response a 200 and home page', (done) => {
       agent
         .get('/loggin')
-        .expect(200, /name.*lucas/)
+        .expect(200, /Hola/)
+        .expect(200, /lucas!/)
         .end(done)
     })
   })

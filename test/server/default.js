@@ -4,7 +4,7 @@ describe("when path is '/'", () => {
   it("should response the home page", (done) => {
     request()
       .get('/')
-      .expect(200, /Home/, /Welcome/)
+      .expect(200, /Home/, /Bienvenido/)
       .end(done)
   })
 })

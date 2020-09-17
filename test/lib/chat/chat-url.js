@@ -40,22 +40,41 @@ describe('/message', () => {
 
       describe("When roomId", () => {
         const agent = request.agent()
-        before('log', done => {
-          agent
+        before('log', async () => {
+          return agent
             .post('/loggin')
             .set('Content-Type', 'application/x-www-form-urlencoded')
             .send('user=lucas')
             .send('pass=pass')
             .expect(302, /Redirecting to \/.*/)
-            .end(done)
         })
-        it('should response a 200', (done) => {
-          agent
-            .get('/chat/message')
-            .set('Content-Type', 'application/json')
-            .query({ roomId:1 })
-            .expect(200)
-            .end(done)
+        it('should response a 200', async () => {
+          return new Promise((resolve, reject) => {
+            agent
+              .get('/chat/message')
+              .set('Content-Type', 'application/json')
+              .query({ roomId:1 })
+              .expect(200)
+              .end((err) => {
+                if (err) {
+                  reject(err)
+                }
+                else {
+                  resolve()
+                }
+            })
+            const post = () => agent
+              .post('/chat/message')
+              .set('Content-Type', 'application/json')
+              .send({ message: 'hola', roomId:1 })
+              .expect(200)
+              .end((err) => {
+                if (err) {
+                  reject(err)
+                }
+            })
+            setTimeout(post, 2)
+          })
         })
       })
     })

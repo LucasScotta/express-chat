@@ -3,7 +3,8 @@ const Feed = require('../../../lib/routes/chat/feed')
 describe('/lib/routes/chat/feed', () => {
   it('should return its user', () => {
     const user = 'lucas'
-    const feed = new Feed({}, {name: user})
+    const feed = new Feed({userName: user})
+    console.log(feed)
     const result = feed.getUser()
     expect(result)
       .to.be.equal(user)
@@ -11,7 +12,7 @@ describe('/lib/routes/chat/feed', () => {
 
   it('should belong to user', () => {
     const user = 'lucas'
-    const feed = new Feed({}, {name: user})
+    const feed = new Feed({userName: user})
     const belongs = feed.belongsTo(user)
     expect(belongs)
       .to.be.true
@@ -26,21 +27,20 @@ describe('/lib/routes/chat/feed', () => {
   })
 
   it('should clear Timeout', () => {
-    const feed = new Feed({}, {name: 'lucas'})
+    const feed = new Feed({name: 'lucas'})
     feed.start()
-    const timer = feed.stop()
-    expect(timer._idleTimeout)
-      .to.be.equal(-1)
-    expect(timer._onTimeout)
+    feed.stop()
+    const timer = feed.timer
+    expect(timer)
       .to.be.null
   })
   it('should set Timeout', () => {
     const feed = new Feed({}, {name: 'lucas'})
-    const start = feed.start()
-    expect(start)
+    feed.start()
+    expect(feed.timer)
       .to.be.an('object')
       .to.have.property('_idleTimeout')
-    expect(start._idleTimeout)
+    expect(feed.timer._idleTimeout)
       .to.be.equal(30000)
     feed.stop()
   })

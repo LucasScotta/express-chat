@@ -58,13 +58,15 @@ describe('lib/routes/chat.js', () => {
 
   it('should send a msg to the specified room', () => {
     const chat = new Chat()
-    const room = chat.createRoom({}, {name: 'lucas'})
-    const feed = room.addUser({}, {name:'lucas'})
+    const room = chat.createRoom({name: 'lucas'})
+    const feed = room.addUser({name:'lucas'})
     const roomId = room.getId()
     let msgRecieved
     feed.on('message', (message) => {
+      console.log('assssssssssssss')
       msgRecieved = message
     })
+    feed.start()
     const message = { message: 'hola', roomId}
     chat.sendMessage(message, roomId)
     expect(message)

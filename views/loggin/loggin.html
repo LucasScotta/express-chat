@@ -34,18 +34,19 @@
   <body>
     <form id="form" method="post" action="/loggin">
       <div>
-        <center><h3>LOG IN</h3></center>
-        <div class="casillero">
+        <center><h3 class="title">ENTRAR A TU CUENTA</h3></center>
+        <div>
           <label for="User">
-            <input type="text" placeholder="User" name="user" required="">
+            <input class="casillero" type="text" placeholder="Usuario" name="user" required="">
           </label>
         </div>
-        <div class="casillero" style="margin-top: 5px;">
+        <div style="margin-top: 5px;">
           <label for="Password">
-            <input type="password" name="pass" placeholder="Password" required="">
+            <input class="casillero" type="password" name="pass" placeholder="Contraseña" required="">
           </label>
         </div>
-        <center><button type="submit">Log-In</button></center>
+        <div style="margin-left: 25px; margin-top: 20px;">No tenes cuenta? Crea la tuya ingresando <a href="/create">ACA</a></div>
+        <center><button class="boton" type="submit">Ingresar</button></center>
       </div>
     </form>
   </body>

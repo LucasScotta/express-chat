@@ -5,7 +5,7 @@
     border: 3px solid black;
     width: 400px;
     padding: 25px 150px 15px 25px;
-    height: 270px;
+    height: 350px;
     margin-top: 200px;
     margin-left: 500px;
     border-radius: 50px;
@@ -21,10 +21,10 @@
   }
   .boton {
     margin-left: 300px;
-    margin-top: 25px;
     border-radius: 50px;
-    width: 100px;
-    height: 50px;
+    font-size: 35px;
+    width: 150px;
+    height: 75px;
   }
   .title {
     margin-top: 10px;
@@ -40,15 +40,16 @@
         <center><h3 class="title">CREA TU CUENTA</h3></center>
         <div>
           <label for="User">
-            <input class="casillero" type="text" placeholder="Usuario" name="user" required="">
+            <input class="casillero" type="text" placeholder="Usuario*" name="user" required="">
           </label>
         </div>
         <div style="margin-top: 5px;">
           <label for="Password">
-            <input class="casillero" type="password" name="pass" placeholder="Contraseña" required="">
+            <input class="casillero" type="password" name="pass" placeholder="Contraseña*" required="">
           </label>
         </div>
-        <center><button class="boton" type="submit">Crear</button></center>
+        <h4>* CAMPOS OBLIGATORIOS</h4>
+        <center><button class="boton" type="submit">CREAR</button></center>
       </div>
     </form>
   </body>

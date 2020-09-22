@@ -63,7 +63,6 @@ describe('lib/routes/chat.js', () => {
     const roomId = room.getId()
     let msgRecieved
     feed.on('message', (message) => {
-      console.log('assssssssssssss')
       msgRecieved = message
     })
     feed.start()

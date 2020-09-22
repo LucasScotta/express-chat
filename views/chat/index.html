@@ -107,12 +107,35 @@ const refreshChat = () => {
     .get('/chat/message?roomId=1')
     .then((resp) => {
       if(resp.data.message) {
-        const div = document.createElement('div')
-        writeMsg(div, chat, resp.data)
-        div.scrollIntoView(true)
+        writeMsg(chat, resp.data)
       }
       refreshChat()
     })
 }
 refreshChat()
+
+const ban = (elem) => {
+  const str = elem.innerText
+  const ask = str.replace(/^.+\ /, '')
+  if (ask === 'UNBLOCK') {
+    const usuario = str.replace(/ UNBLOCK/, '')
+    axios
+      .get('/chat/message?userUnblock=' + usuario)
+      .then((resp) => {
+        if (resp.status === 200) {
+          elem.innerText = str.replace(/UNBLOCK/, 'BLOCK')
+        }
+      })
+  }
+  else if (ask === 'BLOCK'){
+    const usuario = str.replace(/ BLOCK/, '')
+    axios
+      .get('/chat/message?userBlock=' + usuario)
+      .then((resp) => {
+        if (resp.status === 200) {
+          elem.innerText = str.replace(/BLOCK/, 'UNBLOCK')
+        }
+    })
+  }
+}
 </script>

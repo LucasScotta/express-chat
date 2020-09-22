@@ -4,7 +4,6 @@ describe('/lib/routes/chat/feed', () => {
   it('should return its user', () => {
     const user = 'lucas'
     const feed = new Feed({userName: user})
-    console.log(feed)
     const result = feed.getUser()
     expect(result)
       .to.be.equal(user)

@@ -43,7 +43,6 @@
   .message {
     background-color: #35363A;
     text-align: justify;
-    padding-left: 10px;
     color: white;
     margin-left: 20px;
     margin-top: 5px;
@@ -51,11 +50,58 @@
     border-radius: 50px;
     padding-left: 20px;
   }
+  .room-menu {
+    border-radius: 30px;
+    position: absolute;
+    left: 20px;
+    width: 300px;
+    height: 772px;
+    border: 10px solid black;
+  }
+  .block-menu {
+    border-radius: 30px;
+    position: absolute;
+    right: 20px;
+    width: 300px;
+    height: 772px;
+    border: 10px solid black;
+  }
+  .item {
+    color: gray;
+    margin-top: 15px;
+    font-size: 35px;
+  }
+  .item .name {
+    text-align: left;
+  }
+  .item .blocker {
+    display: none;
+  }
+  .item:hover .blocker {
+    display: inline;
+  }
 </style>
     <title>CHAT</title>
   </head>
   <body>
     <center>
+      <div class="room-menu">
+        <div id="salas" class="item">SALAS</div>
+        <% for (const id of suscribed) { %>
+        <div class="item"><%= id %></div>
+        <% } %>
+      </div>
+      <div class="block-menu">
+        <div id="usuarios" class="item">USERS</div>
+        <% for (const suscriptor of suscriptors) {%>
+        <div class="item" onclick="ban(this)">
+          <span class="name">
+            <%= suscriptor %>
+          </span>
+          <span class="blocker">BLOCK</span>
+        </div>
+      <% } %>
+      </div>
       <div id="chat"></div>
         <label for="messages">
           <input id="send" name="message">
@@ -71,33 +117,42 @@
   const chat = document.getElementById('chat')
   document.onkeydown = (event) => {
     if (event.keyCode === 13) return sendMsg(msgElement.value)
-    if (event.keyCode === 221) return axios.get('/debug')
+    if (event.keyCode === 221) return axios.get('/chat/debug')
   }
 const sendMsg = (message) => {
   axios.post('/chat/message', { message, roomId:1 })
   msgElement.value = ""
   }
-const backgroundHeight = (n, div) => {
+const backgroundHeight = (element) => {
   let maxLength = 28
   let height = 45
-  const text = div.innerText.split('')
+  const text = element.innerText.split('')
   if (text.length > 125) {
     text.splice(132, text.length - 1)
   }
   while(text.length > maxLength) {
-    text.splice(maxLength, 0, ' \n ')
+    text.splice(maxLength, 0, '\n')
+    console.log(text)
     maxLength += 28
     height += 45
   }
-  div.innerText = text.join("")
+  element.innerText = text.join("")
   return height
 }
-const writeMsg = (div, chat, data) => {
+
+const writeMsg = (chat, data) => {
+  const div = document.createElement('div')
+  const span1 = document.createElement('span')
+  const span2 = document.createElement('span')
   div.className = 'message'
-  div.innerText = `${data.user}: ${data.message}`
-  const background = backgroundHeight(50, div)
+  span1.innerText = data.user + ': '
+  span2.innerText = data.message
+  const background = backgroundHeight(span2)
   div.style.height = background
   chat.appendChild(div)
+  div.appendChild(span1)
+  div.appendChild(span2)
+  div.scrollIntoView(true)
 }
 
 const roomIds = []

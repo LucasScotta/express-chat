@@ -10,7 +10,7 @@ describe("when path is '/logout'", () => {
     it('should response a 200', (done) => {
       agent
         .get('/logout')
-        .expect(200, 'Unlogged correctly')
+        .expect(302, /Redirecting to \//)
         .end(done)
     })
   })

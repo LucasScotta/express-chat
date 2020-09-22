@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<style>
+  #form {
+    display: flex;
+    border: 3px solid black;
+    width: 400px;
+    padding: 25px 150px 15px 25px;
+    height: 450px;
+    margin-top: 200px;
+    margin-left: 500px;
+    border-radius: 50px;
+  }
+  .casillero {
+    margin-top: 25px;
+    padding-left: 10px;
+    font-size: 25px;
+    width: 500px;
+    height: 50px;
+    margin-left: 3px;
+    border: 1px solid black;
+  }
+  .boton {
+    margin-left: 300px;
+    margin-top: 50px;
+    border-radius: 50px;
+    width: 100px;
+    height: 50px;
+  }
+  .text {
+    margin-left: 20px;
+  }
+</style>
+<html>
+  <head>
+    <title>Creando nuevo Chat</title>
+  </head>
+  <body>
+    <form id="form" method="post" action="/chat/create">
+      <div>
+        <center><h3 class="title">NUEVO CHAT</h3></center>
+        <div>
+          <label for="User">
+            <input class="casillero" type="text" placeholder="Usuario a invitar" name="user" required="">
+            <p>Invita un amigo para poder crear una nueva conversacion y hablar con el.</p>
+          </label>
+        </div>
+        <div style="margin-top: 5px;">
+          <label for="Descripcion">
+            <input class="casillero" type="text" name="desciption" placeholder="Descripcion">
+            <p>Crea un titulo para tu conversacion (opcional)</p>
+          </label>
+        </div>
+        <center><button class="boton" type="submit">Crea mi chat!</button></center>
+      </div>
+    </form>
+  </body>
+</html>

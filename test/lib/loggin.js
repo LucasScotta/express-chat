@@ -11,8 +11,8 @@ describe("when path is loggin", () => {
     it('should response a 200 and home page', (done) => {
       agent
         .get('/loggin')
-        .expect(200, /Hola/)
-        .expect(200, /lucas!/)
+        .expect(200, /Bienvenido/)
+        .expect(200, /LUCAS/)
         .end(done)
     })
   })

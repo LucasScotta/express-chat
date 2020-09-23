@@ -1,17 +1,10 @@
 const request = require('../server/request')
-
+const util = require('../server/util')
 describe('When path is chat', () => {
   describe('When logged', () => {
     const agent = request.agent()
     before((done) => {
-      agent
-        .post('/loggin')
-        .set('Content-Type', 'application/x-www-form-urlencoded')
-        .send('user=lucas')
-        .send('pass=pass')
-        .expect(302)
-        .expect('Content-Type', /text/)
-        .end(done)
+      util.loggin(agent, done)
     })
     it('should response 200 and chat', (done) => {
       agent

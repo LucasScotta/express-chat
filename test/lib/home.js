@@ -18,7 +18,7 @@ describe("When path is '/'", () => {
     it('should response the disconnected home page', (done) => {
       request()
         .get('/')
-        .expect(200, /Bienvenido/, /Loggin/)
+        .expect(200, /Inicia sesion.*para ver el sitio completo/)
         .end(done)
     })
   })

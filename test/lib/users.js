@@ -95,4 +95,72 @@ describe('/lib/routes/users', () => {
       })
     })
   })
+
+  describe('Silence method', () => {
+
+    describe('when try to silence yourself', () => {
+      it('should throw on invalid user', (done) => {
+        users.mute('lucas', 'lucas', (err, blocked) => {
+          expect(err)
+            .to.be.an('error')
+            .to.match(/No podes silenciarte a vos mismo/)
+          expect(blocked)
+            .to.be.undefined
+          return done()
+        })
+      })
+    })
+    describe('when silence another user', () => {
+      it('should mute that user', (done) => {
+        users.mute('lucas', 'pepe', (err, muted) => {
+          expect(err).to.be.null
+          expect(muted)
+            .to.be.an('array')
+            .to.have.length(1)
+            .to.have.members(['pepe'])
+          return done()
+        })
+      })
+      after(done => {
+        users.mute('lucas', 'pepe', done)
+      })
+    })
+    describe('when unmute an user', () => {
+      before(done => {
+        users.mute('lucas', 'pepe', done)
+      })
+      it('should unmute that user', (done) => {
+        users.mute('lucas', 'pepe', (err, muted) => {
+          expect(err).to.be.null
+          expect(muted)
+            .to.be.an('array')
+            .to.have.length(0)
+          return done()
+        })
+      })
+    })
+
+    describe("Getting muted users", () => {
+      describe("When user is wrong", () => {
+        it('Should throw on invalid user', done => {
+          users.getMuted('jose', (err, mutedUsers) => {
+            expect(err)
+              .to.be.an('error')
+              .to.match(/Usuario invalido/)
+            expect(mutedUsers).to.be.undefined
+            return done()
+          })
+        })
+      })
+      it.only('should return the muted users', done => {
+        users.getMuted('lucas', (err, mutedUsers) => {
+          expect(err).to.be.null
+          expect(mutedUsers)
+            .to.be.an('array')
+            .to.have.length(0)
+          return done()
+        })
+      })
+    })
+  })
 })

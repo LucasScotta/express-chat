@@ -94,7 +94,7 @@
       <div class="block-menu">
         <div id="usuarios" class="item">USERS</div>
         <% for (const suscriptor of suscriptors) {%>
-        <div class="item" onclick="ban(this)">
+        <div class="item" onclick="mute(this)">
           <span class="name">
             <%= suscriptor %>
           </span>
@@ -169,28 +169,12 @@ const refreshChat = () => {
 }
 refreshChat()
 
-const ban = (elem) => {
-  const str = elem.innerText
-  const ask = str.replace(/^.+\ /, '')
-  if (ask === 'UNBLOCK') {
-    const usuario = str.replace(/ UNBLOCK/, '')
+const mute = (elem) => {
+  const usuario = elem.innerText.replace(/\ .*BLOCK/, "")
     axios
-      .get('/chat/message?userUnblock=' + usuario)
+      .post('/chat/message', {userToMute: usuario})
       .then((resp) => {
-        if (resp.status === 200) {
-          elem.innerText = str.replace(/UNBLOCK/, 'BLOCK')
-        }
+        console.log(resp)
       })
   }
-  else if (ask === 'BLOCK'){
-    const usuario = str.replace(/ BLOCK/, '')
-    axios
-      .get('/chat/message?userBlock=' + usuario)
-      .then((resp) => {
-        if (resp.status === 200) {
-          elem.innerText = str.replace(/BLOCK/, 'UNBLOCK')
-        }
-    })
-  }
-}
 </script>

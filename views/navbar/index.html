@@ -1,0 +1,53 @@
+<style>
+.grilla {
+  border: 2px solid black;
+  border-radius: 15px;
+  padding: 10px 0;
+  display: grid;
+  grid-gap: 0;
+}
+.uno {
+  grid-column: 1;
+  grid-row: 1;
+}
+.dos {
+  grid-column: 2;
+  grid-row: 1;
+}
+.tres {
+  grid-column: 3;
+  grid-row: 1;
+}
+.cuatro {
+  grid-column: 4;
+  grid-row: 1;
+}
+.cinco {
+  grid-column: 5;
+  grid-row: 1;
+}
+.seis {
+  grid-column: 6;
+  grid-row: 1;
+}
+</style>
+<div class="grilla">
+  <a href="/" class="uno">Home</a>
+  <a href="/semaforo" class="dos">Semaforo</a>
+  <% if(user) {%>
+  <a href="/chat" class="cuatro">Chat</a>
+  <div class="seis">Bienvenido
+    <a id="perfil"><%= user.toUpperCase() %></a>
+    <a href="logout">Salir de la cuenta</a>
+  </div>
+  <% }%>
+  <% if(!user) { %>
+  <a href="/loggin" class="tres">Iniciar sesion</a>
+  <a href="/create" class="cuatro">Crear cuenta</a>
+  <% } %>
+</div>
+
+<script>
+  const usuario = document.getElementById('perfil')
+  usuario.href = '/profile/' + usuario.innerText.toLowerCase()
+</script>

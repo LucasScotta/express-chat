@@ -14,31 +14,35 @@
     height: 200px;
   }
   .encabezado {
-    margin-top: 40px;
-  }
-  #title {
-    margin-left: 100px;
+    margin-top: 35px;
   }
 </style>
+<%- include('../navbar/index.html') -%>
 <%- include('header.html') -%>
 <body id="body">
   <center>
-      <div id="title">Bienvenido</div>
       <%if (user) { %>
-      <div id="container">
-        <div class="encabezado" id="user-name">
-        <span>Hola</span>
-        <span><%= user %>!</span>
-      </div>
-        <div class="encabezado"><a href="/logout">Desconectarse de la cuenta</a></div>
-      </div>
         <div id="container">
-          <%- include('footer.html') -%>
+          <div>
+            <ul>
+              <li>
+                <div class="encabezado">
+                  <a href="/chat">Chat publico</a>
+                </div>
+              </li>
+              <li>
+                <div class="encabezado">
+                  <a href="/chat/create">Crear un nuevo Chat</a>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
       <% } else { %>
       <div id="container">
-        <div class="encabezado"><a href="/loggin">Iniciar sesion</a></div>
-        <div class="encabezado"><a href="/create">Crear cuenta</a></div>
+        <div class="encabezado"><a href="/loggin">Inicia sesion </a>para ver el sitio completo</div>
+        <div class="encabezado"><a href="/create">Crea una cuenta </a>si no tenes una</div>
+        <div class="encabezado">Y sonrei</div>
       </div>
       <% } %>
   </center>

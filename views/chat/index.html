@@ -74,10 +74,10 @@
   .item .name {
     text-align: left;
   }
-  .item .blocker {
+  .item .muter {
     display: none;
   }
-  .item:hover .blocker {
+  .item:hover .muter {
     display: inline;
   }
 </style>
@@ -95,10 +95,7 @@
         <div id="usuarios" class="item">USERS</div>
         <% for (const suscriptor of suscriptors) {%>
         <div class="item" onclick="mute(this)">
-          <span class="name">
-            <%= suscriptor %>
-          </span>
-          <span class="blocker">BLOCK</span>
+          <span class="name"><%= suscriptor %></span><span class="muter"> MUTE</span>
         </div>
       <% } %>
       </div>

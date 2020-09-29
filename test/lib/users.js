@@ -152,12 +152,76 @@ describe('/lib/routes/users', () => {
           })
         })
       })
-      it.only('should return the muted users', done => {
+      it('should return muted users', done => {
         users.getMuted('lucas', (err, mutedUsers) => {
           expect(err).to.be.null
           expect(mutedUsers)
             .to.be.an('array')
             .to.have.length(0)
+          return done()
+        })
+      })
+    })
+  })
+
+  describe('Block method', () => {
+
+    describe('When try to block yourself', () => {
+      it('should throw on invalid user', done => {
+        users.block('lucas', 'lucas', (err, blocked) => {
+          expect(err).to.match(/No podes bloquearte a vos mismo/)
+          expect(blocked).to.be.undefined
+          return done()
+        })
+      })
+    })
+    describe('When try to block another user', () => {
+      it('should block that user', done => {
+        users.block('lucas', 'jose', (err, blocked) => {
+          expect(err).to.be.null
+          expect(blocked)
+            .to.be.an('array')
+            .to.have.length(1)
+            .to.have.members(['jose'])
+          return done()
+        })
+      })
+      after(done => {
+        users.block('lucas', 'jose', done)
+      })
+    })
+
+    describe('When try to unblock an user', () => {
+      before(done => {
+        users.block('lucas', 'jose', done)
+      })
+      it('should unblock that user', done => {
+        users.block('lucas', 'jose', (err, blockeds) => {
+          expect(blockeds)
+            .to.be.an('array')
+            .to.have.length(0)
+          return done()
+        })
+      })
+    })
+    describe('Getting blocked users', () => {
+      it('should throw on invalid user', (done) => {
+        users.getBlocked('asda', (err, blockeds) => {
+          expect(err).to.match(/Usuario invalido/)
+          expect(blockeds).to.be.undefined
+          return done()
+        })
+      })
+      before(done => {
+        users.block('lucas', 'jose', done)
+      })
+      it('Should return blockeds users', (done) => {
+        users.getBlocked('lucas', (err, blockeds) => {
+          expect(err).to.be.null
+          expect(blockeds)
+            .to.be.an('array')
+            .to.have.length(1)
+            .to.have.members(['jose'])
           return done()
         })
       })

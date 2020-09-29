@@ -26,6 +26,10 @@
     width: 100px;
     height: 50px;
   }
+  #error {
+    margin-top: 5px;
+    color: red;
+  }
 </style>
 <html>
   <head>
@@ -44,8 +48,11 @@
           <label for="Password">
             <input class="casillero" type="password" name="pass" placeholder="Contraseña" required="">
           </label>
+          <% if (err) {%>
+          <div style="margin-top: 5px; color:red;" id="error"><%= err %></div>
+          <% } %>
         </div>
-        <div style="margin-left: 25px; margin-top: 20px;">No tenes cuenta? Crea la tuya ingresando <a href="/create">ACA</a></div>
+        <div id="helper" style="margin-left: 25px; margin-top: 20px;">No tenes cuenta? Crea la tuya ingresando <a href="/create">ACA</a></div>
         <center><button class="boton" type="submit">Ingresar</button></center>
       </div>
     </form>

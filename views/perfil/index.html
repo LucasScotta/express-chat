@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<style>
+#container {
+  display: flex;
+  border: 3px solid black;
+  width: 400px;
+  padding: 25px 150px 15px 25px;
+  height: 250px;
+  margin-top: 200px;
+  margin-left: 500px;
+  border-radius: 50px;
+}
+.casillero {
+  margin-top: 25px;
+  padding-left: 10px;
+  font-size: 25px;
+  width: 500px;
+  height: 50px;
+  margin-left: 3px;
+  border: 1px solid black;
+}
+#boton {
+  margin-left: 300px;
+  margin-top: 25px;
+  border-radius: 50px;
+  width: 100px;
+  height: 50px;
+}
+</style>
+<head>
+  <title>Perfil</title>
+  <%- include('../navbar/index.html') -%>
+</head>
+<body>
+  <form id="container" method="post" action="/profile">
+      <div>
+        <center><h3 class="title">A QUIEN ESTAS BUSCANDO?</h3></center>
+        <div>
+        <div style="margin-top: 20px;">Ingresa un nombre de usuario y encontra los datos disponibles</div>
+          <label for="User">
+            <input onkeypress="clearError()" class="casillero" id="user" type="text" placeholder="Usuario" name="user" required="">
+          </label>
+          <% if (err) {%>
+          <div id="error"><%= err %></div>
+          <% } %>
+        </div>
+        <center><button id="boton" type="submit"><a id="href"></a> Ingresar</button></center>
+      </div>
+    </form>
+</body>
+</html>

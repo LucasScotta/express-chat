@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<style>
+.container {
+  border: 3px solid black;
+  width: 300px;
+  padding: 25px 150px 15px 25px;
+  height: 275px;
+  margin-top: 20px;
+  border-radius: 50px;
+}
+.casillero {
+  margin-top: 25px;
+  padding-left: 10px;
+  font-size: 25px;
+  width: 500px;
+  height: 50px;
+  margin-left: 3px;
+  border: 1px solid black;
+}
+.boton {
+  margin-left: 300px;
+  margin-top: 25px;
+  border-radius: 50px;
+  width: 100px;
+  height: 50px;
+}
+.encabezado {
+  margin-top: 15px;
+  padding-left: 100px;
+}
+#user-name {
+  text-decoration: underline;
+}
+</style>
+<head>
+  <title>Perfil de <%= searchName %></title>
+  <%- include('../navbar/index.html') -%>
+</head>
+<body>
+  <center>
+    <div class="container">
+      <center>
+        <h3 id="user-name" class="encabezado"><%= searchName.toUpperCase() %></h3>
+        <div class="encabezado">Agregar amigo</div>
+        <div class="encabezado">Elminar amigo</div>
+        <div class="encabezado">Silenciar</div>
+        <div class="encabezado">Des-silenciar</div>
+        <div class="encabezado">Bloquear</div>
+        <div class="encabezado">Des-bloquear</div>
+      </center>
+    </div>
+    <div class="container">
+      <center>
+        <div class="encabezado">Foto de perfil</div>
+      </center>
+    </div>
+    <div class="container">
+      <center>
+        <div class="encabezado">Amigos</div>
+      </center>
+    </div>
+  </center>
+</body>
+</html>

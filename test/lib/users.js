@@ -235,48 +235,5 @@ describe('/lib/routes/users', () => {
         users.block('lucas', 'jose', done)
       })
     })
-
-    describe('is blocked?', () => {
-
-      it('Should throw on invalid user', done => {
-        users.isBlocked('lucas', 'jose', (err, boolean) => {
-          expect(err).to.match(/Usuario invalido/)
-          expect(boolean).to.be.undefined
-          return done()
-        })
-      })
-      it('Should throw on invalid user', done => {
-        users.isBlocked('luc', 'jose', (err, boolean) => {
-          expect(err).to.match(/Usuario invalido/)
-          expect(boolean).to.be.undefined
-          return done()
-        })
-      })
-
-      it('Should not be blocked', done => {
-        users.isBlocked('lucas', 'lcs', (err, boolean) => {
-          expect(err).to.be.null
-          expect(boolean).to.be.false
-          return done()
-        })
-      })
-
-      describe('When is blocked', () => {
-        before(done => {
-          users.block('lucas', 'lcs', done)
-        })
-        it('should be blocked', done => {
-          users.isBlocked('lucas', 'lcs', (err, boolean) => {
-            expect(err).to.be.null
-            expect(boolean).to.be.true
-            return done()
-          })
-        })
-        after(done => {
-          users.block('lucas', 'lcs', done)
-        })
-      })
-
-    })
   })
 })

@@ -160,6 +160,58 @@ describe('/lib/routes/chat/room', () => {
     expect(call)
       .to.throw(/El mensaje debe contener menos de 64 caracteres/)
   })
+
+  describe.only('setProperties', () => {
+    it('should set properties of the room', () => {
+      const room = new Room(timeout)
+      const id = '1'
+      const suscriptors = []
+      const displayMessage = 'Mensaje de presentacion'
+      const feedOptions = {timeoutInMillis:30000}
+      const properties = room.setProperties(id,suscriptors,displayMessage, feedOptions)
+      expect(properties).to.be.equal(room)
+      expect(room.getId()).to.be.equal(parseInt(id))
+      expect(room.getSuscriptors()).to.be.equal(suscriptors)
+      expect(room.getDisplayMessage()).to.be.equal(displayMessage)
+      expect(room.feedOptions).to.be.equal(feedOptions)
+    })
+    it('should throw on invalid id', () => {
+      const room = new Room(timeout)
+      const id = 'asd'
+      const suscriptors = []
+      const displayMessage = 'asd'
+      const feedOptions = {timeoutInMillis:30000}
+      const properties = room.setProperties(id,suscriptors,displayMessage,feedOptions)
+      expect(properties).to.match(/Expected number, but got/)
+    })
+    it('should throw on invalid suscriptors', () => {
+      const room = new Room(timeout)
+      const id = 1
+      const suscriptors = '[]'
+      const displayMessage = 'asd'
+      const feedOptions = {timeoutInMillis:30000}
+      const properties = room.setProperties(id,suscriptors,displayMessage,feedOptions)
+      expect(properties).to.match(/Expected object, but got/)
+    })
+    it('should throw on invalid displayMessage', () => {
+      const room = new Room(timeout)
+      const id = 1
+      const suscriptors = []
+      const displayMessage = {}
+      const feedOptions = {timeoutInMillis:30000}
+      const properties = room.setProperties(id,suscriptors,displayMessage,feedOptions)
+      expect(properties).to.match(/Expected string, but got object/)
+    })
+    it('should throw on invalid feedOptions', () => {
+      const room = new Room(timeout)
+      const id = 1
+      const suscriptors = []
+      const displayMessage = 'asd'
+      const feedOptions = '{timeoutInMillis:30000}'
+      const properties = room.setProperties(id,suscriptors,displayMessage,feedOptions)
+      expect(properties).to.match(/Expected object, but got string/)
+    })
+  })
 })
 
 console.log('---------------------------------------------------------------------')

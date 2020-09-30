@@ -140,6 +140,38 @@ describe('/lib/routes/users', () => {
       })
     })
 
+    describe('is muted?', () => {
+      describe("When user is wrong", () => {
+        it('Should throw on invalid user', done => {
+          users.isMuted('lucas', 'jose', (err, boolean) => {
+            expect(err).to.match(/Usuario invalido/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+      })
+      describe('When muted', () => {
+        it('Should not be silenced', done => {
+          users.isMuted('lucas', 'lcs', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
+        })
+      })
+      describe('When not muted', () => {
+        before(done => users.mute('lucas', 'lcs', done))
+        it('Should be silenced', done => {
+          users.isMuted('lucas', 'lcs', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+        after(done => users.mute('lucas', 'lcs', done))
+      })
+    })
+
     describe("Getting muted users", () => {
       describe("When user is wrong", () => {
         it('Should throw on invalid user', done => {
@@ -157,7 +189,6 @@ describe('/lib/routes/users', () => {
       })
       it('should return muted users', done => {
         users.getMuted('lucas', (err, mutedUsers) => {
-          console.log(mutedUsers.length)
           expect(err).to.be.null
           expect(mutedUsers)
             .to.be.an('array')
@@ -234,6 +265,49 @@ describe('/lib/routes/users', () => {
       after(done => {
         users.block('lucas', 'jose', done)
       })
+    })
+
+    describe('is blocked?', () => {
+
+      it('Should throw on invalid user', done => {
+        users.isBlocked('lucas', 'jose', (err, boolean) => {
+          expect(err).to.match(/Usuario invalido/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+      it('Should throw on invalid user', done => {
+        users.isBlocked('luc', 'jose', (err, boolean) => {
+          expect(err).to.match(/Usuario invalido/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should not be blocked', done => {
+        users.isBlocked('lucas', 'lcs', (err, boolean) => {
+          expect(err).to.be.null
+          expect(boolean).to.be.false
+          return done()
+        })
+      })
+
+      describe('When is blocked', () => {
+        before(done => {
+          users.block('lucas', 'lcs', done)
+        })
+        it('should be blocked', done => {
+          users.isBlocked('lucas', 'lcs', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+        after(done => {
+          users.block('lucas', 'lcs', done)
+        })
+      })
+
     })
   })
 })

@@ -34,25 +34,25 @@ describe("when path is loggin", () => {
 
   describe("when user or pass are wrong", () => {
     describe("when user is wrong", () => {
-      it("should respnse a 417 and loggin page", (done) => {
+      it("should response the loggin page", (done) => {
         request()
           .post('/loggin')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=wrong user')
           .send('pass=pass')
-          .expect(417)
+          .expect(200, /action.+loggin/)
           .end(done)
       })
     })
 
     describe("when pass is wrong", () => {
-      it("should response a 417 and loggin page", (done) => {
+      it("should response the loggin page", (done) => {
         request()
           .post('/loggin')
           .set('Content-Type', 'application/x-www-form-urlencoded')
           .send('user=lucas')
           .send('pass=wrong password')
-          .expect(417)
+          .expect(200, /action.+loggin/)
           .end(done)
       })
     })

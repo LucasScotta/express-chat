@@ -4,3 +4,5 @@ coverage/
 /public/bower_components
 *.log
 rules
+datos/
+lib/routes/chat/rooms/

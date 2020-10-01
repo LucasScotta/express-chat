@@ -41,6 +41,9 @@
         <div>
           <label for="User">
             <input class="casillero" type="text" placeholder="Usuario a invitar" name="user" required="">
+            <% if (err) { %>
+            <p style="margin-top: 0"><%= err %></p>
+            <% } %>
             <p>Invita un amigo para poder crear una nueva conversacion y hablar con el.</p>
           </label>
         </div>

@@ -33,22 +33,18 @@
 </style>
 <div class="grilla">
   <a href="/" class="uno">Home</a>
-  <a href="/semaforo" class="dos">Semaforo</a>
+  <a href="/semaforo.html" class="dos">Semaforo</a>
   <% if(user) {%>
   <a href="/profile" class="tres">Buscar amigos</a>
   <a href="/chat" class="cuatro">Chat</a>
   <div class="seis">Bienvenido
-    <a id="perfil"><%= user.toUpperCase() %></a>
-    <a href="logout">Salir de la cuenta</a>
+    <a href="/profile/<%=user%>" id="perfil"><%= user.toUpperCase() %></a>
+    <a href="/logout">Salir de la cuenta</a>
   </div>
   <% }%>
   <% if(!user) { %>
-  <a href="/loggin" class="tres">Iniciar sesion</a>
-  <a href="/create" class="cuatro">Crear cuenta</a>
+  <a href="/create" class="tres">Crear cuenta</a>
+  <a href="/loggin" class="cuatro">Iniciar sesion</a>
   <% } %>
 </div>
 
-<script>
-  const usuario = document.getElementById('perfil')
-  usuario.href = '/profile/' + usuario.innerText.toLowerCase()
-</script>

@@ -161,7 +161,7 @@ describe('/lib/routes/chat/room', () => {
       .to.throw(/El mensaje debe contener menos de 64 caracteres/)
   })
 
-  describe.only('setProperties', () => {
+  describe('setProperties', () => {
     it('should set properties of the room', () => {
       const room = new Room(timeout)
       const id = '1'

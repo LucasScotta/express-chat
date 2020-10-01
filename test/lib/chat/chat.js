@@ -129,4 +129,16 @@ describe('lib/routes/chat.js', () => {
         .to.throw(/Invalid room ID/)
     })
   })
+
+  describe('readRooms', () => {
+    it.only('should return all previous rooms', () => {
+      const chat = new Chat()
+      chat.readRooms(timeout, (err, rooms) => {
+        console.log(err)
+        expect(rooms).to.be.an('array')
+        expect(chat.getRooms()).to.have.length(rooms.length)
+        expect(err).to.be.null
+      })
+    })
+  })
 })

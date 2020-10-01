@@ -11,10 +11,7 @@
     border: 2px solid black;
     border-radius: 50px;
     width: 400px;
-    height: 200px;
-  }
-  .encabezado {
-    margin-top: 35px;
+    height: 250px;
   }
 </style>
 <%- include('../navbar/index.html') -%>
@@ -22,23 +19,62 @@
 <body id="body">
   <center>
       <%if (user) { %>
+      <style>
+        #container {
+          margin-top: 20px;
+          margin-left: 100px;
+          padding-top: 20px;
+          border: 2px solid black;
+          border-radius: 50px;
+          width: 400px;
+          height: 276px;
+        }
+        .encabezado {
+          border: 1px solid black;
+          margin-top: 35px;
+        }
+      </style>
         <div id="container">
-          <div>
-            <ul>
-              <li>
-                <div class="encabezado">
-                  <a href="/chat">Chat publico</a>
-                </div>
-              </li>
-              <li>
-                <div class="encabezado">
-                  <a href="/chat/create">Crear un nuevo Chat</a>
-                </div>
-              </li>
-            </ul>
+          <div>CHAT</div>
+          <div class="encabezado">
+            <a href="/chat">Chat publico</a>
+          </div>
+          <div class="encabezado">
+            <a href="/chat/create">Crear un nuevo Chat</a>
+          </div>
+          <div class="encabezado">
+            <a href="/chats">Mis conversaciones</a>
           </div>
         </div>
+        <div id="container">
+          <div>CUENTA</div>
+            <div class="encabezado">
+              <a href="/amigos">Mis amigos</a>
+            </div>
+            <div class="encabezado">
+              <a href="/profile/<%=user%>" id="mi-perfil">Mi perfil</a>
+            </div>
+            <script>
+              const perfil = document.getElementById('mi-perfil')
+              perfil.href = `/profile/<%=user%>`
+            </script>
+        </div>
       <% } else { %>
+      <style>
+        #container {
+          margin-top: 20px;
+          margin-left: 100px;
+          padding-top: 20px;
+          border: 2px solid black;
+          border-radius: 50px;
+          width: 400px;
+          height: 200px;
+        }
+        .encabezado {
+          border: 1px solid black;
+          margin-top: 35px;
+        }
+      </style>
       <div id="container">
         <div class="encabezado"><a href="/loggin">Inicia sesion </a>para ver el sitio completo</div>
         <div class="encabezado"><a href="/create">Crea una cuenta </a>si no tenes una</div>

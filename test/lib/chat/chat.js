@@ -1,11 +1,12 @@
 const Chat = require('../../../lib/routes/chat')()
 const Room = require('../../../lib/routes/chat/room')
 const timeout = {timeoutInMillis: 30000}
-
+const userName = 'lucas'
+const displayMessage = ''
 describe('lib/routes/chat.js', () => {
   it('should create a room', () => {
     const chat = new Chat()
-    chat.createRoom(timeout, (err, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err, room) => {
       expect(err).to.be.null
       expect(room).to.be.instanceof(Room)
     })
@@ -13,7 +14,7 @@ describe('lib/routes/chat.js', () => {
 
   it('should return an existing room', () => {
     const chat = new Chat()
-    chat.createRoom(timeout, (err, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err, room) => {
       const result = chat.getRoom(room.getId())
       expect(err).to.be.null
       expect(result).to.be.equal(room)
@@ -30,11 +31,11 @@ describe('lib/routes/chat.js', () => {
     let r1
     let r2
     let r3
-    chat.createRoom(timeout, (err1, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err1, room) => {
       r1 = room
-      chat.createRoom(timeout, (err2, room) => {
+      chat.createRoom(timeout, userName, displayMessage, (err2, room) => {
         r2 = room
-        chat.createRoom(timeout, (err3, room) => {
+        chat.createRoom(timeout, userName, displayMessage, (err3, room) => {
           r3 = room
           const rooms = chat.getRooms()
           expect(err1).to.be.null
@@ -54,11 +55,11 @@ describe('lib/routes/chat.js', () => {
     let r1
     let r2
     let r3
-    chat.createRoom(timeout, (err1, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err1, room) => {
       r1 = room
-      chat.createRoom(timeout, (err2, room) => {
+      chat.createRoom(timeout, userName, displayMessage, (err2, room) => {
         r2 = room
-        chat.createRoom(timeout, (err3, room) => {
+        chat.createRoom(timeout, userName, displayMessage, (err3, room) => {
           r3 = room
           const removed = chat.removeRoom(r2)
           expect(removed)
@@ -77,7 +78,7 @@ describe('lib/routes/chat.js', () => {
   it('should delete a room, non existing', () => {
     const chat1 = new Chat()
     const chat2 = new Chat()
-    chat1.createRoom(timeout, (err, room) => {
+    chat1.createRoom(timeout, userName, displayMessage, (err, room) => {
       const removed = chat2.removeRoom(room)
       expect(err).to.be.null
       expect(removed).to.be.false
@@ -87,7 +88,7 @@ describe('lib/routes/chat.js', () => {
   it('should send a msg to the specified room', (done) => {
     const chat = new Chat()
     let msgRecieved
-    chat.createRoom(timeout, (err, newRoom) => {
+    chat.createRoom(timeout, userName, displayMessage, (err, newRoom) => {
       const room = newRoom
       const feed = room.addUser({name:'lucas'})
       const roomId = room.getId()
@@ -105,7 +106,7 @@ describe('lib/routes/chat.js', () => {
   })
   it('should throw on invalid msg', () => {
     const chat = new Chat()
-    chat.createRoom(timeout, (err, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err, room) => {
       const roomId = room.getId()
       const result = () => chat.sendMessage({ message: null, roomId })
       expect(err).to.be.null
@@ -121,7 +122,7 @@ describe('lib/routes/chat.js', () => {
   })
   it('should throw on invalid Room Id', () => {
     const chat = new Chat()
-    chat.createRoom(timeout, (err, room) => {
+    chat.createRoom(timeout, userName, displayMessage, (err, room) => {
       const roomId = room.getId()
       const result = () => chat.sendMessage({message: 'hola', roomdId: roomId + 1})
       expect(err).to.be.null
@@ -130,8 +131,8 @@ describe('lib/routes/chat.js', () => {
     })
   })
 
-  describe('readRooms', () => {
-    it.only('should return all previous rooms', () => {
+  xdescribe('readRooms', () => {
+    it('should return all previous rooms', () => {
       const chat = new Chat()
       chat.readRooms(timeout, (err, rooms) => {
         expect(rooms).to.be.an('array')

@@ -2,7 +2,7 @@ const config = require('../config')
 const users = require('../../lib/users')(config)
 const unlink = require('./unlink')
 
-describe.only('/lib/routes/users', () => {
+describe('/lib/routes/users', () => {
 
   describe('add method', () => {
     describe('when file doesn`t exists', () => {
@@ -309,6 +309,7 @@ describe.only('/lib/routes/users', () => {
         })
       })
     })
+  })
 
   })
 })

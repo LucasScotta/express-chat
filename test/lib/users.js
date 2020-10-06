@@ -311,5 +311,55 @@ describe('/lib/routes/users', () => {
     })
   })
 
+  describe('Comprobing friends', () => {
+    describe("When users doesn't exists", () => {
+      it('should throw on invalid user', done => {
+        users.areFriends('lucas', 'asd', (err, areFriends) => {
+          expect(err).to.match(/usuario no existe/)
+          expect(areFriends).to.be.undefined
+          return done()
+        })
+      })
+      it('should throw on invalid user', done => {
+        users.areFriends('asd', 'lucas', (err, areFriends) => {
+          expect(err).to.match(/usuario no existe/)
+          expect(areFriends).to.be.undefined
+          return done()
+        })
+      })
+    })
+    describe("When there aren't friends", () => {
+      it('should return falsee', done => {
+        users.areFriends('lucas', 'lcs', (err, areFriends) => {
+          expect(err).to.be.null
+          expect(areFriends).to.be.false
+          return done()
+        })
+      })
+      it('should return false', done => {
+        users.areFriends('lcs', 'lucas', (err, areFriends) => {
+          expect(err).to.be.null
+          expect(areFriends).to.be.false
+          return done()
+        })
+      })
+    })
+    describe("When there are friends", () => {
+      it.only('Should return true', done => {
+        users.areFriends('lucas', 'lcs', (err, areFriends) => {
+          console.log(err)
+          expect(err).to.be.null
+          expect(areFriends).to.be.true
+          return done()
+        })
+      })
+      it('Should return true', done => {
+        users.areFriends('lcs', 'lucas', (err, areFriends) => {
+          expect(err).to.be.null
+          expect(areFriends).to.be.true
+          return done()
+        })
+      })
+    })
   })
 })

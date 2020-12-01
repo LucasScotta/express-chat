@@ -3,6 +3,7 @@ const cookieParser = require('cookie-parser')
 const sessions = require('./lib/sessions')
 const bodyParser = require('body-parser')
 const router = require('./lib/router')
+// require('./psql')()
 process.env.HOME = __dirname + '/public/home.html'
 module.exports = exports = express()
 

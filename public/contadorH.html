@@ -11,17 +11,13 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
   const element = document.getElementById('count')
-  // const colors = ['red','blue','white' ,'green','orange','yellow','brown','rebeccapurple','lightblue', 'black']
-  const colors = ['black', 'white', 'black', 'white', 'black', 'white', 'black', 'white', 'black', 'white']
+  const colors = ['white', 'red','blue','white' ,'green','orange','yellow','brown','rebeccapurple','lightblue', 'black']
+  const colorsBackground = ['black', 'blue','red','black' ,'yellow','green','green','gray','lightblue','lightred', 'white']
   const colorear = () => {
     const body = document.getElementById('body')
-    element.style.color = colors[Math.floor(Math.random() * colors.length)]
-    if (element.style.color === 'black') {
-      body.style.backgroundColor = 'white'
-    }
-    else {
-      body.style.backgroundColor = 'black'
-    }
+    const numero = Math.floor(Math.random() * colors.length)
+    element.style.color = colors[numero]
+    body.style.backgroundColor = colorsBackground[numero]
   }
   const cambiar = (n) => {
     element.innerText = n

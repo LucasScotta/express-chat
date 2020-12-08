@@ -4,12 +4,12 @@ const sequelize = new Sequelize('futbol', 'lucas', 'asd', {
   dialect: 'postgres'
 })
 const notNull = false
-
+const primaryKey = true
 module.exports = {
   equipos: sequelize.define('equipos', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey,
       notNull,
     },
     nombre: {
@@ -20,7 +20,7 @@ module.exports = {
   jugadores: sequelize.define('jugadores', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey,
       notNull,
     },
     nombre: {
@@ -39,7 +39,7 @@ module.exports = {
   partidos: sequelize.define('partidos', {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey,
       notNull,
     },
     fecha: {

@@ -437,22 +437,37 @@ describe('/lib/routes/users', () => {
       })
 
     })
-    describe("When there are friends", () => {
-      it.only('Should return true', done => {
-        users.areFriends('lucas', 'lcs', (err, areFriends) => {
-          console.log(err)
-          expect(err).to.be.null
-          expect(areFriends).to.be.true
-          return done()
-        })
-      })
-      it('Should return true', done => {
-        users.areFriends('lcs', 'lucas', (err, areFriends) => {
-          expect(err).to.be.null
-          expect(areFriends).to.be.true
-          return done()
-        })
-      })
-    })
+
   })
+//FIN MUTEDS
+//COMPROBANDO BLOCKEDS
+  describe('Getting blocked users', () => {
+
+    describe("When user doesn't exists", () => {
+
+      it('Should throw on user', done => {
+        users.getBlocked('asdas', (err, list) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(list).to.be.undefined
+          return done()
+        })
+      })
+
+    })
+
+    describe('When user exists', () => {
+      before(done => users.block('lucas', 'admin', () => users.block('lucas', 'lcs', done)))
+      it('Should return blocked users', done => {
+        users.getBlocked('lucas', (err, list) => {
+          expect(err).to.be.null
+          expect(list).to.be.an('array')
+            .to.have.length(2)
+          return done()
+        })
+      })
+      after(done => users.unblock('lucas', 'admin', () => users.unblock('lucas', 'lcs', done)))
+    })
+
+  })
+//FIN BLOCKEDS
 })

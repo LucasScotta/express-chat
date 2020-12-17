@@ -4,7 +4,7 @@ module.exports = {
       .post('/loggin')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .send('user=lucas')
-      .send('pass=pass')
+      .send('pass=A')
       .expect(302, /Redirecting to \/.*/)
       .end(done)
   },
@@ -13,7 +13,7 @@ module.exports = {
       .post('/loggin')
       .set('Content-Type', 'application/x-www-form-urlencoded')
       .send('user=lcs')
-      .send('pass=pass')
+      .send('pass=A')
       .expect(302, /Redirecting to \//)
       .end(done)
   }

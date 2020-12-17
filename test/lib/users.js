@@ -1,6 +1,5 @@
 const config = require('../config')
 const users = require('../../lib/users')(config)
-const unlink = require('./unlink')
 
 describe('/lib/routes/users', () => {
 

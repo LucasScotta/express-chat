@@ -385,39 +385,57 @@ describe('/lib/routes/users', () => {
     })
 
   })
+//FIN BLOCK
+//COMPROBANDO MUTEDS
+  describe('Comprobing mutted', () => {
 
-  describe('Comprobing friends', () => {
-    describe("When users doesn't exists", () => {
-      it('should throw on invalid user', done => {
-        users.areFriends('lucas', 'asd', (err, areFriends) => {
-          expect(err).to.match(/usuario no existe/)
-          expect(areFriends).to.be.undefined
+    describe("When an user doesn't exists", () => {
+
+      it('Should throw on user', done => {
+        users.isMuted('lucas', 'lc', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
           return done()
         })
       })
-      it('should throw on invalid user', done => {
-        users.areFriends('asd', 'lucas', (err, areFriends) => {
-          expect(err).to.match(/usuario no existe/)
-          expect(areFriends).to.be.undefined
+
+      it('Should throw on user', done => {
+        users.isMuted('lc', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
           return done()
         })
       })
+
     })
-    describe("When there aren't friends", () => {
-      it('should return falsee', done => {
-        users.areFriends('lucas', 'lcs', (err, areFriends) => {
-          expect(err).to.be.null
-          expect(areFriends).to.be.false
-          return done()
+
+    describe('When users exist', () => {
+
+      describe('When is muted', () => {
+
+        before(done => users.mute('lucas', 'admin', done))
+        it('Should return true', done => {
+          users.isMuted('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+        after(done => users.unmute('lucas', 'admin', done))
+
+      })
+
+      describe("When isn't muted", () => {
+
+        it('Should return false', done => {
+          users.isMuted('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
         })
       })
-      it('should return false', done => {
-        users.areFriends('lcs', 'lucas', (err, areFriends) => {
-          expect(err).to.be.null
-          expect(areFriends).to.be.false
-          return done()
-        })
-      })
+
     })
     describe("When there are friends", () => {
       it.only('Should return true', done => {

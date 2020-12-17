@@ -104,18 +104,22 @@ describe('/lib/routes/users', () => {
       })
     })
 
+  })
+//FIN GETBYPASS
+//INICIO GET
   describe('get method', () => {
-    describe('when file doesn`t exists', () => {
+
+    describe('when user doesn`t exists', () => {
       it('should throw error', (done) => {
         users.get('id', (err, user) => {
-          expect(err).to.be.an('error')
+          expect(err).to.match(/Usuario incorrecto/)
           expect(user).to.be.undefined
           return done()
         })
       })
     })
 
-    describe('when file exists', () => {
+    describe('when user exists', () => {
       it('should return an user', (done) => {
         users.get('lucas', (err, user) => {
           expect(err).to.be.null
@@ -127,6 +131,7 @@ describe('/lib/routes/users', () => {
         })
       })
     })
+
   })
 
   xdescribe('Silence method', () => {

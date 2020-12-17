@@ -69,40 +69,40 @@ describe('/lib/routes/users', () => {
 //FIN DELETE
 //INICIO GETBYPASS
   describe('getByPass method', () => {
-    describe('when file doesn`t exists', () => {
+
+    describe('when user doesn`t exists', () => {
       it('should throw error', (done) => {
         users.getByPass('id', 'pass', (err, user) => {
-          expect(err).to.be.an('error')
+          expect(err).to.match(/Usuario o contrasenia incorrectos/)
           expect(user).to.be.undefined
           return done()
         })
       })
     })
 
-    describe('when file exists', () => {
+    describe('when user exists', () => {
       it('should return an user', (done) => {
-        users.getByPass('lucas', 'pass', (err, user) => {
+        users.getByPass('lucas', 'A', (err, user) => {
           expect(err).to.be.null
           expect(user)
             .to.be.an('object')
             .to.have.property('pass')
               .to.be.a('string')
-              .to.be.equal('pass')
+              .to.be.equal('A')
           return done()
         })
       })
     })
 
-    describe('when file exists but password is wrong', () => {
-      it('should throw pass error', (done) => {
+    describe('when user exists but password is wrong', () => {
+      it('should throw password error', (done) => {
         users.getByPass('lucas', 'password', (err, user) => {
-          expect(err).to.be.an('error')
+          expect(err).to.match(/Usuario o contrasenia incorrectos/)
           expect(user).to.be.undefined
           return done()
         })
       })
     })
-  })
 
   describe('get method', () => {
     describe('when file doesn`t exists', () => {

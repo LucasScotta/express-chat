@@ -40,7 +40,34 @@ describe('/lib/routes/users', () => {
     })
 
   })
+//FIN ADD
+//INICIO DELETE
+  describe('delete method', () => {
 
+    describe('When user exists', () => {
+      before(done => users.add('nuevo', 'usuario', done))
+      it('Should return true', done => {
+        users.delete('nuevo', 'usuario', (err, boolean) => {
+          expect(err).to.be.null
+          expect(boolean).to.be.true
+          return done()
+        })
+      })
+    })
+
+    describe("When user doesn't exists", () => {
+      it('Should return false', done => {
+        users.delete('nuevo', 'usuario', (err, boolean) => {
+          expect(err).to.match(/Usuario o contrasenia incorrectos/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+  })
+//FIN DELETE
+//INICIO GETBYPASS
   describe('getByPass method', () => {
     describe('when file doesn`t exists', () => {
       it('should throw error', (done) => {

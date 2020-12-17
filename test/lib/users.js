@@ -133,177 +133,152 @@ describe('/lib/routes/users', () => {
     })
 
   })
+//FIN GET
+//INICIO SILENCE
+  describe('Silence method', () => {
 
-  xdescribe('Silence method', () => {
+    describe('When an user silences other', () => {
 
-    describe('when try to silence yourself', () => {
-      it('should throw on invalid user', (done) => {
-        users.mute('lucas', 'lucas', (err, blocked) => {
-          expect(err)
-            .to.be.an('error')
-            .to.match(/No podes silenciarte a vos mismo/)
-          expect(blocked)
-            .to.be.undefined
-          return done()
+      describe('When is not silenced', () => {
+        it('Should return true', done => {
+          users.mute('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
         })
+        after(done => users.unmute('lucas', 'admin', done))
       })
-    })
-    describe('when silence another user', () => {
-      it('should mute that user', (done) => {
-        users.mute('lucas', 'pepe', (err, muted) => {
-          console.log(err)
-          expect(err).to.be.null
-          expect(muted)
-            .to.be.an('array')
-            .to.have.length(1)
-            .to.have.members(['pepe'])
-          return done()
-        })
-      })
-      after(done => {
-        users.mute('lucas', 'pepe', done)
-      })
-    })
-    describe('when unmute an user', () => {
-      before(done => {
-        users.mute('lucas', 'pepe', done)
-      })
-      it('should unmute that user', (done) => {
-        users.mute('lucas', 'pepe', (err, muted) => {
-          expect(err).to.be.null
-          expect(muted)
-            .to.be.an('array')
-            .to.have.length(0)
-          return done()
-        })
-      })
-    })
 
-    describe('is muted?', () => {
-      describe("When user is wrong", () => {
-        it('Should throw on invalid user', done => {
-          users.isMuted('lucas', 'jose', (err, boolean) => {
-            expect(err).to.match(/Usuario invalido/)
+      describe('When is silenced', () => {
+        before(done => users.mute('lucas', 'admin', done))
+        it('should return false', done => {
+          users.mute('lucas', 'admin', (err, boolean) => {
+            expect(err).to.match(/Este usuario ya se encuentra silenciado/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+        after(done => users.unmute('lucas', 'admin', done))
+      })
+
+      describe("When an user try to mute himself", () => {
+        it('Should throw on dumbass err', done => {
+          users.mute('lucas', 'lucas', (err, boolean) => {
+            expect(err).to.match(/No podes mutearte a vos mismo, genio/)
             expect(boolean).to.be.undefined
             return done()
           })
         })
       })
-      describe('When muted', () => {
-        it('Should not be silenced', done => {
-          users.isMuted('lucas', 'lcs', (err, boolean) => {
+
+      describe("When an user doesn't exists", () => {
+        it('Should throw error on user', done => {
+          users.mute('luqas', 'admin', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+        it('Should throw error on user', done => {
+          users.mute('admin', 'luqas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+        it('Should throw error on user', done => {
+          users.mute('admi', 'luqas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+      })
+
+    })
+    describe('Getting mutted users', () => {
+
+      describe('When user exists', () => {
+        before(done => {
+          users.mute('lucas', 'admin', () => {
+            users.mute('lucas', 'lcs', done)
+          })
+        })
+        it('Should return the muted list', done => {
+          users.getMuted('lucas', (err, list) => {
+            expect(err).to.be.null
+            expect(list).to.be.an('array')
+              .to.have.length(2)
+            return done()
+          })
+        })
+        after(done => {
+          users.unmute('lucas', 'admin', () => {
+            users.unmute('lucas', 'lcs', done)
+          })
+        })
+      })
+
+      describe("When user doesn't exists", () => {
+        it('Should throw on user', done => {
+          users.getMuted('asda', (err, list) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(list).to.be.undefined
+            return done()
+          })
+        })
+      })
+
+    })
+  })
+  describe('Unmutting users', () => {
+
+    describe("When an user doesn't exists", () => {
+
+      it('Should throw on invalid user', done => {
+        users.unmute('asd', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on invalid user', done => {
+        users.unmute('lucas', 'asd', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+    })
+
+    describe("When users exist", () => {
+
+      describe("When isn't mutted", () => {
+        it('Should return false', done => {
+          users.unmute('lucas', 'admin', (err, boolean) => {
             expect(err).to.be.null
             expect(boolean).to.be.false
             return done()
           })
         })
       })
-      describe('When not muted', () => {
-        before(done => users.mute('lucas', 'lcs', done))
-        it('Should be silenced', done => {
-          users.isMuted('lucas', 'lcs', (err, boolean) => {
+
+      describe("When is mutted", () => {
+        before(done => users.mute('lucas', 'admin', done))
+        it('Should return true', done => {
+          users.unmute('lucas', 'admin', (err, boolean) => {
             expect(err).to.be.null
             expect(boolean).to.be.true
             return done()
           })
         })
-        after(done => users.mute('lucas', 'lcs', done))
       })
-    })
 
-    describe("Getting muted users", () => {
-      describe("When user is wrong", () => {
-        it('Should throw on invalid user', done => {
-          users.getMuted('jose', (err, mutedUsers) => {
-            expect(err)
-              .to.be.an('error')
-              .to.match(/Usuario invalido/)
-            expect(mutedUsers).to.be.undefined
-            return done()
-          })
-        })
-      })
-      before(done => {
-        users.mute('lucas', 'lcs', done)
-      })
-      it('should return muted users', done => {
-        users.getMuted('lucas', (err, mutedUsers) => {
-          expect(err).to.be.null
-          expect(mutedUsers)
-            .to.be.an('array')
-            .to.have.length(1)
-            .to.have.members(['lcs'])
-          return done()
-        })
-      })
-      after(done => users.mute('lucas','lcs',done))
-    })
-  })
-
-  xdescribe('Block method', () => {
-
-    describe('When try to block yourself', () => {
-      it('should throw on invalid user', done => {
-        users.block('lucas', 'lucas', (err, blocked) => {
-          expect(err).to.match(/No podes bloquearte a vos mismo/)
-          expect(blocked).to.be.undefined
-          return done()
-        })
-      })
-    })
-    describe('When try to block another user', () => {
-      it('should block that user', done => {
-        users.block('lucas', 'jose', (err, blocked) => {
-          expect(err).to.be.null
-          expect(blocked)
-            .to.be.an('array')
-            .to.have.length(1)
-            .to.have.members(['jose'])
-          return done()
-        })
-      })
-      after(done => {
-        users.block('lucas', 'jose', done)
-      })
-    })
-
-    describe('When try to unblock an user', () => {
-      before(done => {
-        users.block('lucas', 'jose', done)
-      })
-      it('should unblock that user', done => {
-        users.block('lucas', 'jose', (err, blockeds) => {
-          expect(blockeds)
-            .to.be.an('array')
-            .to.have.length(0)
-          return done()
-        })
-      })
-    })
-    describe('Getting blocked users', () => {
-      it('should throw on invalid user', (done) => {
-        users.getBlocked('asda', (err, blockeds) => {
-          expect(err).to.match(/Usuario invalido/)
-          expect(blockeds).to.be.undefined
-          return done()
-        })
-      })
-      before(done => {
-        users.block('lucas', 'jose', done)
-      })
-      it('Should return blockeds users', (done) => {
-        users.getBlocked('lucas', (err, blockeds) => {
-          expect(err).to.be.null
-          expect(blockeds)
-            .to.be.an('array')
-            .to.have.length(1)
-            .to.have.members(['jose'])
-          return done()
-        })
-      })
-      after(done => {
-        users.block('lucas', 'jose', done)
-      })
     })
 
     describe('is blocked?', () => {

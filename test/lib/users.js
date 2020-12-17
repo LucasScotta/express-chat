@@ -281,47 +281,109 @@ describe('/lib/routes/users', () => {
 
     })
 
-    describe('is blocked?', () => {
+  })
+//FIN SILENCE
+//INICIO BLOCK
+  describe('Block method', () => {
 
-      it('Should throw on invalid user', done => {
-        users.isBlocked('lucas', 'jose', (err, boolean) => {
-          expect(err).to.match(/Usuario invalido/)
-          expect(boolean).to.be.undefined
-          return done()
-        })
-      })
-      it('Should throw on invalid user', done => {
-        users.isBlocked('luc', 'jose', (err, boolean) => {
-          expect(err).to.match(/Usuario invalido/)
-          expect(boolean).to.be.undefined
-          return done()
-        })
-      })
+    describe('When an user silences other', () => {
 
-      it('Should not be blocked', done => {
-        users.isBlocked('lucas', 'lcs', (err, boolean) => {
-          expect(err).to.be.null
-          expect(boolean).to.be.false
-          return done()
-        })
-      })
-
-      describe('When is blocked', () => {
-        before(done => {
-          users.block('lucas', 'lcs', done)
-        })
-        it('should be blocked', done => {
-          users.isBlocked('lucas', 'lcs', (err, boolean) => {
+      describe("When isn't blocked", () => {
+        it('Should return true', done => {
+          users.block('lucas', 'admin', (err, boolean) => {
             expect(err).to.be.null
             expect(boolean).to.be.true
             return done()
           })
         })
-        after(done => {
-          users.block('lucas', 'lcs', done)
+        after(done => users.unblock('lucas', 'admin', done))
+      })
+
+      describe("When is blocked", () => {
+        before(done => users.block('lucas', 'admin', done))
+        it('Should throw on already blocked user', done => {
+          users.block('lucas', 'admin', (err, boolean) => {
+            expect(err).to.match(/Este usuario ya se encuentra bloqueado/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+        after(done => users.unblock('lucas', 'admin', done))
+      })
+
+      describe("When an user doesn't exists", () => {
+        it('Should throw on invalid user', done => {
+          users.block('lucas', 'asd', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+        it('Should throw on invalid user', done => {
+          users.block('asda', 'lucas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
         })
       })
+
     })
+
+    describe('Unblocking users', () => {
+
+      describe("When an user doesn't exists", () => {
+
+        it('Should throw on user', done => {
+          users.unblock('lucas', 'asd', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+        it('Should throw on user', done => {
+          users.unblock('asd', 'lucas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+      })
+
+      describe('When users exists', () => {
+
+        describe("When isn't blocked", () => {
+
+          it('Should return false', done => {
+            users.unblock('lucas', 'admin', (err, boolean) => {
+              expect(err).to.be.null
+              expect(boolean).to.be.false
+              return done()
+            })
+          })
+
+        })
+
+        describe('When is blocked', () => {
+
+          before(done => users.block('lucas', 'admin', done))
+          it('Should return true', done => {
+            users.unblock('lucas', 'admin', (err, boolean) => {
+              expect(err).to.be.null
+              expect(boolean).to.be.true
+              return done()
+            })
+          })
+        })
+
+
+      })
+
+    })
+
   })
 
   describe('Comprobing friends', () => {

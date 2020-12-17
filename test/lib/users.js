@@ -2,36 +2,43 @@ const config = require('../config')
 const users = require('../../lib/users')(config)
 
 describe('/lib/routes/users', () => {
-
+//INICIO ADD
   describe('add method', () => {
-    describe('when file doesn`t exists', () => {
-      before((done) => {
-        unlink(config.path + '/id.json', done)
+
+    describe('When is a new user', () => {
+      it('should return user obj', done => {
+        users
+          .add('nuevo', 'usuario', (err, user) => {
+            expect(err).to.be.null
+            expect(user).to.be.an('object')
+            return done()
+        })
       })
-      it('should create a new user', (done) => {
-        users.add('id', 'pass', (err, user) => {
-          expect(err).to.be.null
-          expect(user)
-            .to.be.an('object')
-            .to.have.property('pass')
-              .to.be.a('string')
+      after(done => users.delete('nuevo', 'usuario', done))
+    })
+
+    describe("When isn't a new user", () => {
+      before(done => users.add('nuevo', 'usuario', done))
+      it('Should throw on user name', done => {
+        users.add('nuevo', 'asdas', (err, boolean) => {
+          expect(err).to.match(/Nombre de usuario en uso/)
+          expect(boolean).to.be.undefined
           return done()
         })
       })
-      after((done) => {
-        unlink(config.path + '/id.json', done)
-      })
+      after(done => users.delete('nuevo', 'usuario', done))
     })
 
-    describe('when file exists', () => {
+    describe('When user exists', () => {
       it('should throw error', (done) => {
-        users.add('lucas', 'pass', (err, user) => {
-          expect(err).to.be.an('error')
+        users.add('admin', 'pass', (err, user) => {
+          expect(err).to.match(/Nombre de usuario en uso/)
           expect(user).to.be.undefined
           return done()
         })
       })
     })
+
   })
 
   describe('getByPass method', () => {

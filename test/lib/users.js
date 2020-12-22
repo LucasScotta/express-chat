@@ -402,6 +402,16 @@ describe('/lib/routes/users', () => {
 
       })
 
+      describe('When try to unblock himself', () => {
+        it('Should throw on dumbass user', done => {
+          users.unblock('lucas', 'lucas', (err, boolean) => {
+            expect(err).to.match(/No podes desbloquearte a vos mismo, genio/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+      })
+
     })
 
   })
@@ -458,6 +468,16 @@ describe('/lib/routes/users', () => {
 
     })
 
+    describe('When try to comprobe himself', () => {
+      it('Should throw on same user', done => {
+        users.isMuted('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Imposible/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
   })
 //FIN MUTEDS
 //COMPROBANDO BLOCKEDS
@@ -490,4 +510,237 @@ describe('/lib/routes/users', () => {
 
   })
 //FIN BLOCKEDS
+//INICIO FRIEND REQUESTS
+  describe('Friend requests Method', () => {
+
+    describe("When user doesn't exits", () => {
+
+      it('Should throw on user', done => {
+        users.sendFriendRequest('lucas', 'asdasd', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.sendFriendRequest('asdas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+
+      })
+    })
+
+    describe('When users exist', () => {
+
+      describe('When there is a request sent', () => {
+        before(done => users.sendFriendRequest('lucas', 'admin', done))
+        it('Should throw on request', done => {
+          users.sendFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.match(/Ya has enviado una solicitud a este usuario/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+        after(done => users.cancelFriendRequest('lucas', 'admin', done))
+      })
+
+      describe("When there isn't a request sent", () => {
+        it('Should return true', done => {
+          users.sendFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+        after(done => users.cancelFriendRequest('lucas', 'admin', done))
+      })
+
+    })
+
+    describe('When try to send to himself', () => {
+      it('Should throw on same user', done => {
+        users.sendFriendRequest('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/No podes agregarte a vos mismo a amigos, genio/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+  })
+
+  describe('Getting friend request sent list', () => {
+
+    describe("When user doesn't exists", () => {
+
+      it('Should throw on user', done => {
+        users.getFriendRequestsSent('asdas', (err, list) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(list).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When user exists', () => {
+      before(done =>users.sendFriendRequest('lucas', 'admin', done))
+      it('Should return a list with "admin"', done => {
+        users.getFriendRequestsSent('lucas', (err, list) => {
+          expect(err).to.be.null
+          expect(list).to.be.an('array')
+            .to.have.length(1)
+          return done()
+        })
+      })
+      after(done => users.cancelFriendRequest('lucas', 'admin', done))
+    })
+
+  })
+
+  describe('Getting friend request recieved list', () => {
+
+    describe("When user doesn't exists", () => {
+
+      it('Should throw on user', done => {
+        users.getFriendRequestsRecieved('hgfj', (err, list) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(list).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When user exists', () => {
+      before(done => users.sendFriendRequest('admin', 'lucas', done))
+      it("Should return a list with 'admin'", done => {
+        users.getFriendRequestsRecieved('lucas', (err, list) => {
+          expect(err).to.be.null
+          expect(list).to.be.an('array')
+            .to.have.length(1)
+            return done()
+        })
+      })
+      after(done => users.cancelFriendRequest('admin', 'lucas', done))
+    })
+
+  })
+
+  describe('Canceling friend requests', () => {
+
+    describe("When an user doesn't exists", () => {
+      it('Should throw on user', done => {
+        users.cancelFriendRequest('lucas', 'asdasd', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.cancelFriendRequest('asdas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When users exist', () => {
+
+      describe('When an user has sent a request to be friends', () => {
+        before(done => users.sendFriendRequest('lucas', 'admin', done))
+        it('Should return true', done => {
+          users.cancelFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+      })
+
+      describe("When the user hasn't sent the request", () => {
+        it('Should return false', done => {
+          users.cancelFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
+        })
+      })
+
+    })
+
+    describe('When try to cancel to himself', () => {
+      it('Should throw on dumbass user', done => {
+        users.cancelFriendRequest('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/No podrias haber llegado hasta aca/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+  })
+  describe('Declining friend requests', () => {
+
+    describe("When an user doesn't exists", () => {
+      it('should throw on user', done => {
+        users.declineFriendRequest('lucas', 'asda', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.declineFriendRequest('asda', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When users exist', () => {
+
+      describe("When there isn't a friend request", () => {
+        it('should return false', done => {
+          users.declineFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
+        })
+      })
+
+      describe('When there is a friend request', () => {
+        before(done => users.sendFriendRequest('admin', 'lucas', done))
+        it('Should return true', done => {
+          users.declineFriendRequest('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+      })
+
+      describe('When try to decline himself', () => {
+        it('Should throw on dumbass user', done => {
+          users.declineFriendRequest('lucas', 'lucas', (err, boolean) => {
+            expect(err).to.match(/No podrias haber llegado hasta aca/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+      })
+
+    })
+
+  })
+//FIN FRIEND REQUESTS
+//INICIO FRIENDS
+//END FRIENDS
 })

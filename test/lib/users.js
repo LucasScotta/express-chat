@@ -281,6 +281,16 @@ describe('/lib/routes/users', () => {
 
     })
 
+    describe('When try to unmute himself', () => {
+      it('Should throw on dumbass user', done => {
+        users.unmute('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/No podrias haber llegado hasta aca/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
   })
 //FIN SILENCE
 //INICIO BLOCK

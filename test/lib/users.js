@@ -286,7 +286,7 @@ describe('/lib/routes/users', () => {
 //INICIO BLOCK
   describe('Block method', () => {
 
-    describe('When an user silences other', () => {
+    describe('When an user blocks other', () => {
 
       describe("When isn't blocked", () => {
         it('Should return true', done => {
@@ -323,6 +323,16 @@ describe('/lib/routes/users', () => {
         it('Should throw on invalid user', done => {
           users.block('asda', 'lucas', (err, boolean) => {
             expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+      })
+
+      describe("When try to block himself", () => {
+        it('Should throw on wrong method', done => {
+          users.block('lucas', 'lucas', (err, boolean) => {
+            expect(err).to.match(/No podes bloquearte a vos mismo, genio/)
             expect(boolean).to.be.undefined
             return done()
           })

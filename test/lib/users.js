@@ -742,5 +742,227 @@ describe('/lib/routes/users', () => {
   })
 //FIN FRIEND REQUESTS
 //INICIO FRIENDS
+  describe('Accepting friends', () => {
+
+    describe("When an user doesn't exists", () => {
+      it('Should throw on user', done => {
+        users.acceptFriendRequest('lucas', 'asdas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.acceptFriendRequest('askjflkasf', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When try to accept himself', () => {
+      it('Should throw on dumbass user', done => {
+        users.acceptFriendRequest('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/No podes aceptarte a vos mismo/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When accept other user', () => {
+
+      describe("When an user doesn't exists", () => {
+        it('SHould throw on user', done => {
+          users.acceptFriendRequest('asdas', 'lucas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+        it('Should throw on user', done => {
+          users.acceptFriendRequest('lucas', 'asdas', (err, boolean) => {
+            expect(err).to.match(/Usuario incorrecto/)
+            expect(boolean).to.be.undefined
+            return done()
+          })
+        })
+
+      })
+
+      describe('When users exist', () => {
+
+        describe('When invited to be friends', () => {
+          before(done => users.sendFriendRequest('lucas', 'admin', done))
+          it('should return true', done => {
+            users.acceptFriendRequest('admin', 'lucas', (err, boolean) => {
+              expect(err).to.be.null
+              expect(boolean).to.be.true
+              return done()
+            })
+          })
+          after(done => users.deleteFriend('admin', 'lucas', done))
+        })
+
+        describe("When not invited to be friends", () => {
+
+          it('Should return false', done => {
+            users.acceptFriendRequest('admin', 'lucas', (err, boolean) => {
+              expect(err).to.be.null
+              expect(boolean).to.be.false
+              return done()
+            })
+          })
+        })
+
+      })
+
+    })
+
+  })
+
+  describe('Deletting friends', () => {
+
+    describe('When try to delete himself', () => {
+      it('Should throw on same user', done => {
+        users.deleteFriend('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/No podes eliminarte a vos mismo/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe("When an user doesn't exists", () => {
+      it('should throw on user', done => {
+        users.deleteFriend('asda', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.deleteFriend('lucas', 'asda', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When users exist', () => {
+
+      describe("When they aren't friends", () => {
+        it('Should return false', done => {
+          users.deleteFriend('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
+        })
+      })
+
+      describe('When they are friends', () => {
+        before(done => users.sendFriendRequest('lucas', 'admin', () => users.acceptFriendRequest('admin', 'lucas', done)))
+        it('Should return true', done => {
+          users.deleteFriend('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+      })
+
+    })
+
+  })
+
+  describe('areFriends Method', () => {
+
+    describe("When user doesn't exists", () => {
+      it('Should throw on user', done => {
+        users.getFriends('asda', (err, list)=> {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(list).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When user exists', () => {
+      before(done => users.sendFriendRequest('lucas', 'lcs', () => users.acceptFriendRequest('lcs', 'lucas', () => users.sendFriendRequest('lucas', 'admin', () => users.acceptFriendRequest('admin', 'lucas', done)))))
+      it('Should return friend list', done => {
+        users.getFriends('lucas', (err, list) => {
+          expect(err).to.be.null
+          expect(list).to.be.an('array')
+            .to.have.length(2)
+            .to.have.members(['lcs', 'admin'])
+          return done()
+        })
+      })
+      after(done => users.deleteFriend('lucas', 'lcs', () => users.deleteFriend('admin', 'lucas', done)))
+    })
+
+  })
+
+  describe('areFriends method', () => {
+
+    describe("When an user doesn't exists", () => {
+      it('Should throw on user', done => {
+        users.areFriends('lucas', 'asda', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+
+      it('Should throw on user', done => {
+        users.areFriends('asda', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Usuario incorrecto/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe('When ask with himself', () => {
+      it('Should throw on joke error', done => {
+        users.areFriends('lucas', 'lucas', (err, boolean) => {
+          expect(err).to.match(/Si, claro que si/)
+          expect(boolean).to.be.undefined
+          return done()
+        })
+      })
+    })
+
+    describe("When users exists", () => {
+
+      describe('When they are friends', () => {
+        before(done => users.sendFriendRequest('lucas', 'admin', () => users.acceptFriendRequest('admin', 'lucas', done)))
+        it('Should return true', done => {
+          users.areFriends('admin', 'lucas', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.true
+            return done()
+          })
+        })
+        after(done => users.deleteFriend('lucas', 'admin', done))
+      })
+
+      describe("When they aren't friends", () => {
+        it('Should return false', done => {
+          users.areFriends('lucas', 'admin', (err, boolean) => {
+            expect(err).to.be.null
+            expect(boolean).to.be.false
+            return done()
+          })
+        })
+      })
+    })
+  })
 //END FRIENDS
 })

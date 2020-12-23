@@ -962,6 +962,7 @@ describe('/lib/routes/users', () => {
           })
         })
       })
+
     })
   })
 //END FRIENDS
